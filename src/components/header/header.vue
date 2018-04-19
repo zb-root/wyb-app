@@ -37,5 +37,5 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   .head
-    height: 30px
+    height: 40px
 </style>

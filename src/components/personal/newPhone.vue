@@ -64,7 +64,8 @@
             let token = localStorage.getItem('token')
             let id = localStorage.getItem('id')
             axios.post(global.user+'/users/'+id,{       //更新手机号
-              mobile:self.newMobile
+              mobile:self.newMobile,
+              token:token
             })
               .then(function (response) {
                 if (response.data && response.data.err) {
@@ -92,9 +93,9 @@
         if(this.count != 60) return;
         let self = this
         let reg = /^1[3|4|5|7|8][0-9]{9}$/
-        if(!reg.test(this.mobile)) return Toast({message: '手机号码不正确',position: 'bottom',duration: 1500});
+        if(!reg.test(this.newMobile)) return Toast({message: '手机号码不正确',position: 'bottom',duration: 1500});
         let url = global.passport + '/sms/'
-        axios.get(url + self.mobile, {
+        axios.get(url + self.newMobile, {
           params: {}
         }).then(function (response) {
           console.log(response.data)
