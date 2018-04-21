@@ -1,7 +1,7 @@
 <template>
   <div>
     <i-header title="个人中心" rightNav="/" ></i-header>
-    <div style="clear:both"></div>
+    <div style="clear:both;margin-top:0.5rem"></div>
     <div style="margin:20px 5px 20px 15px;padding:0;display: inline-block;vertical-align: top;">
       <div class="img" style="width:90px;height:100px;">
         <img src="../../assets/png/default_avatar.png" width="90px" alt="avatar"/>

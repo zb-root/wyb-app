@@ -1,24 +1,41 @@
 <template>
   <div>
     <i-header title="企业详情" leftNav="/app/company/list"></i-header>
-    <div style="border-top:1px solid #ccc;padding:22px 13px 13px 13px;position:relative">
-      <p style="font-size: 15px;">{{name}}</p>
-      <span style="position:absolute;top:17px;right:8px;font-size:10px;border-radius:5px;background-color:#F2F2F2;padding:5px 10px;">已认证</span>
-      <ul style="margin-top:0.4em">
-        <li class="productT" v-for="productType in operationModes" v-bind:style="{'backgroundColor':productType == '生产'?'#FFFFCC' :(productType == '经营'?'#CCFFCC':(productType == '储存'?'#FFE2FF':(productType == '经营'?'#FFFFCC':'#D5EAFF')))}">{{productType}}</li>
+    <div style="border-top:1px solid #ccc;padding:27px 13px 13px 13px;position:relative">
+      <p style="font-size: 1.2em;color:#134498">{{name}}</p>
+      <div style="position:absolute;top:1.7rem;right:1rem;">
+        <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
+      </div>
+      <ul style="margin-top:0.8rem">
+        <li class="productT" v-for="productType in operationModes" style="display: inline-block;border:1px solid" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
       </ul>
       <div>
-        <p style="display:inline-block;font-size:13px;margin-top:0.9em;width:49%;">登记时间：{{crtime | date}}</p>
-        <p style="display:inline-block;font-size:13px;margin-top:0.9em;width:49%;">更新时间：{{moditime | date}}</p>
+        <div style="font-size:1em;margin-top:1rem;color:gray;position:relative;line-height: 1.7rem">
+          <p>登记时间：{{crtime | date}}</p>
+          <p>更新时间：{{crtime | date}}</p>
+        </div>
       </div>
-      <div style="height:1px;background-color:#ccc;margin-top:0.5em"></div>
-      <p style="font-size:13px;margin-top:0.5em">组织代码：{{coding}}</p>
-      <p style="font-size:13px;margin-top:0.5em">固定电话：{{telephone}}</p>
-      <p style="font-size:13px;margin-top:0.5em">是否注销：{{isCancel?'已注销':'否'}}</p>
-      <p style="font-size:13px;margin-top:0.5em;line-height: 20px;">地址信息：{{address}}</p>
-      <div style="height:1px;background-color:#ccc;margin-top:0.5em"></div>
-      <p style="font-size:13px;height:25px;margin:0.5em 0;line-height: 20px;">经营化学品：<span v-for="chemical in chemicals">{{chemical}}、</span></p>
+      <div style="height:1px;background-color:gray;margin-top:0.5em"></div>
+      <div style="margin-top:0.7rem">
+        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+          <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">组织代码：{{coding}}</p>
+        </div>
+        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+          <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">固定电话：{{telephone}}</p>
+        </div>
+        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+          <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">是否注销：{{isCancel?'已注销':'否'}}</p>
+        </div>
+        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+          <p>地址信息：{{address}}</p>
+        </div>
+      </div>
+      <div style="height:1px;background-color:#ccc;margin-top:0.7em"></div>
+      <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;margin-top:0.7rem">
+        <p>经营化学品：{{handleChemical(chemicals)}}</p>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -68,7 +85,39 @@
           .catch(function (error) {
             console.log(error)
           })
-      }
+      },
+      handleChemical:function (chemicals) {
+      	chemicals = chemicals || []
+      	return chemicals.join('、')
+      },
+      handleColor:function (type) {   //处理小标签字体颜色
+        console.log(type)  //生产、经营、储存、使用、运输、处置
+        let color = ''
+        switch (type)
+        {
+          case '生产':
+            color = '#F1924F'
+            break
+          case '经营':
+            color = '#5474DB'
+            break
+          case '储存':
+            color = '#20A85F'
+            break
+          case '使用':
+            color = '#40A7D7'
+            break
+          case '运输':
+            color = 'yellow'
+            break
+          case '处置':
+            color = 'purple'
+            break
+          default:             //默认红色，出现红色则有问题
+            color = 'red'
+        }
+        return color
+      },
     },
     filters:{
       date(time){
@@ -91,8 +140,9 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .productT {
     display:inline-block
-    padding: 2px 8px
-    font-size:12px
-    margin-right:4px
+    padding: 0.25rem 0.6rem 0.1rem
+    font-size:0.95em
+    margin-right:0.6rem
+    border-radius:0.25rem
   }
 </style>

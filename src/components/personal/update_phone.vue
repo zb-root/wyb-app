@@ -48,6 +48,7 @@
       },
       toPath:function () {
       	let self = this
+        if(!self.code) return Toast({message: '请输入验证码',position: 'bottom',duration: 1500});
         axios.get(global.verifycode+'/'+self.mobile+'/check',{
           params: {code:self.code,mobile:self.mobile}
         })

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <mt-header v-bind:title='title' fixed>
+    <mt-header v-bind:title='title' fixed style="height:3rem; font-size:1.2em;background-color:#1E1E1E">/*background-color:#1A4B9C*/
       <router-link v-bind:to="leftNav" slot="left" v-if="isLeftNav">
-        <mt-button icon="back">返回</mt-button>
+        <mt-button icon="back" style="font-size:0.8em">返回</mt-button>
       </router-link>
       <router-link v-bind:to="rightNav" slot="right" v-if="isRightTo">
-        <mt-button>{{rightText}}</mt-button>
+        <mt-button style="font-size:0.8em">{{rightText}}</mt-button>
       </router-link>
     </mt-header>
     <div class="head"></div>
@@ -24,13 +24,10 @@
       }
     },
     mounted: function () {
-      this.isLogin()
+
     },
     methods: {
-      isLogin: function () {
-      	console.log(123)
-        console.log(this.rightText)
-      }
+
     }
   }
 </script>
