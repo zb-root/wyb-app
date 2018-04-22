@@ -12,6 +12,9 @@ import newPhone from '../components/personal/newPhone.vue'
 import companylist from '../components/company/CompanyList.vue'
 import companydetails from '../components/company/CompanyDetails.vue'
 
+//内部数据
+import insiderdata from '../components/inside/insider_data.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -20,16 +23,6 @@ export default new Router({
       path: '/',
       redirect: '/app/personal'
     },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: login
-    // },
-    // {
-    //   path: '/register',
-    //   name: 'register',
-    //   component: register
-    // },
     {
       path: '/app',
       component: app,
@@ -72,6 +65,11 @@ export default new Router({
       path: '/app/company/list/:id',
       name: 'companydetails',
       component: companydetails
+    },
+    {
+      path: '/app/insider/data',
+      name: 'insiderdata',
+      component: insiderdata
     }
   ]
 })

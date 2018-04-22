@@ -1,7 +1,7 @@
 <template>
   <div>
-    <i-header title="企业搜索"></i-header>
-    <div style="position:fixed;width:100%;background-color:white !important;z-index:100;top:3rem;">
+    <!--<i-header title="企业搜索"></i-header>-->
+    <div style="position:fixed;width:100%;background-color:white !important;z-index:100;top:0rem;">
       <div style="position:relative;padding:1rem 1rem;background-color:#1A4B9C;">
         <div>
           <input type="text" v-model="search" style="box-sizing:border-box; width:100%;height:2.5rem;font-size:15px;padding:0 1rem;" placeholder="搜索企业信息"/>
@@ -88,7 +88,6 @@
   import {Search,Toast,Indicator} from 'mint-ui'
   import provinceList from '../../../static/json/province.json'
   import cityList from '../../../static/json/city.json'
-  import 'vue-router'
   export default {
     data () {
       return {
