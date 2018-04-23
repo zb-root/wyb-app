@@ -14,6 +14,7 @@ import companydetails from '../components/company/CompanyDetails.vue'
 
 //内部数据
 import insiderdata from '../components/inside/insider_data.vue'
+import activerank from '../components/inside/active_rank.vue'
 
 Vue.use(Router)
 
@@ -57,19 +58,24 @@ export default new Router({
       component: newPhone
     },
     {
-      path: '/app/company/list',
+      path: '/app/company/list',     //企业列表
       name: 'companylist',
       component: companylist
     },
     {
-      path: '/app/company/list/:id',
+      path: '/app/company/list/:id',      //企业详情
       name: 'companydetails',
       component: companydetails
     },
     {
-      path: '/app/insider/data',
+      path: '/app/insider/data',    //内部数据
       name: 'insiderdata',
       component: insiderdata
+    },
+    {
+      path: '/app/active/rank',       //当月企业活跃度排行
+      name: 'activerank',
+      component: activerank
     }
   ]
 })
