@@ -1,16 +1,31 @@
 <template>
   <div class="lg">
     <i-header title="登录" leftNav="/" rightNav="/" rightText="个人中心"></i-header>
-    <div class="form">
-      <img src="../../assets/png/default_avatar.png" width="45%" />
-      <mt-field label="手机号" type="tel" value="phone" v-model="phone" state="statemo" style="margin-left:-10px;"></mt-field>
-      <mt-field label="验证码" v-model="code" state="statepa" style="margin-left:-10px;">
-        <a v-on:click="rgsms" class="smsbtn" disabled>{{smstext}}</a>
-      </mt-field>
-      <mt-field></mt-field>
-      <div style="text-align: center;margin-top:-1.7rem;">
-        <mt-button type="primary" size="small" v-on:click="login"  style="width:100px;">登录</mt-button>
-        <mt-button type="primary" size="small" v-on:click="register" style="width:100px;">注册</mt-button>
+    <div class="form" style="margin-top:2rem;padding:0 1rem;">
+      <div style="box-sizing:border-box;position: relative;">
+        <img style="position: absolute;top:-3.2rem;left:0.8rem;width:1rem;"  src="../../assets/personal/phone.png" />
+        <input type="text" placeholder="请输入手机号"  v-model="phone" style="box-sizing:border-box;padding:1rem 0 1rem 2.5rem;height:3.1rem;background-color:#EAEAEA;border-radius:0.2rem;width:99%;"/>
+        <!--<mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:1em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>-->
+      </div>
+
+      <div style="margin-top:0.7rem;box-sizing:border-box;position: relative;">
+        <img style="position: absolute;top:-3rem;left:0.8rem;width:1rem;"  src="../../assets/personal/vericate_code.png" />
+        <input type="text" placeholder="请输入验证码"  v-model="code" style="box-sizing:border-box;padding:1rem 0 1rem 2.5rem;height:3.1rem;background-color:#EAEAEA;border-radius:0.2rem;width:61%;"/>
+        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:1em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
+      </div>
+
+
+      <!--<img src="../../assets/png/default_avatar.png" width="45%" />-->
+      <!--<mt-field label="手机号" type="tel" value="phone" v-model="phone" state="statemo" style="margin-left:-10px;"></mt-field>-->
+      <!--<mt-field label="验证码" v-model="code" state="statepa" style="margin-left:-10px;">-->
+        <!--<a v-on:click="rgsms" class="smsbtn" disabled>{{smstext}}</a>-->
+      <!--</mt-field>-->
+      <!--<mt-field></mt-field>-->
+      <div style="text-align: center;margin-top:2rem;">
+        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="login">登录</mt-button>
+        <mt-button type="default" style="color:#1A4B9C;width:100%;border-radius:0.3rem;height:3rem;margin-top:0.7rem;border:1px solid #1A4B9C" v-on:click="register">注册</mt-button>
+        <!--<mt-button type="primary" size="small" v-on:click="login"  style="width:100px;">登录</mt-button>-->
+        <!--<mt-button type="primary" size="small" v-on:click="register" style="width:100px;">注册</mt-button>-->
       </div>
     </div>
 

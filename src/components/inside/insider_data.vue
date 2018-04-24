@@ -3,7 +3,7 @@
     <i-header title="内部数据"></i-header>
     <div style="position:fixed;width:100%;z-index:99;top:3rem;background-color:white !important;">
       <p style="line-height: 2.5rem" v-if="!isInsider">该数据属于内部数据，您无查阅权限。</p>
-      <p style="line-height: 2.5rem;text-align: right;font-size:0.9em;padding-right:1rem;" v-if="isInsider"><a style="text-decoration: underline;font-color:red;">当月活跃企业数排名</a></p>
+      <p style="line-height: 2.5rem;text-align: right;font-size:0.9em;padding-right:1rem;" v-if="isInsider"><a @click="toActiveRank" style="text-decoration: underline;font-color:red;">当月活跃企业数排名</a></p>
       <div style="font-size:0;" v-if="isInsider">
         <div style="display: inline-block;width:33%;height:28px;">
           <select v-model="year" style="">
@@ -88,6 +88,9 @@
       this.loadMore()
     },
     methods: {
+    	toActiveRank:function () {
+        this.$router.push('/app/active/rank')
+      },
       signClass:function (item) {
         if(item._id.date = this.year && item._id.province == this.province) return true
         return false

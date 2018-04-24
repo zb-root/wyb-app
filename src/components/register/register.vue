@@ -1,22 +1,38 @@
 <template>
   <div>
     <i-header title="注册" leftNav="/app/login" rightNav="/" rightText="个人中心"></i-header>
-    <div style="margin:1rem;">
-      <mt-field label="身份证号" placeholder="填写真实身份证信息" type="text" v-model="idcard"></mt-field>
-      <!--<mt-cell title="城市" >-->
-        <div @click="tt">
-          <mt-cell title="城市" is-link></mt-cell>
-        </div>
-      <!--</mt-cell>-->
-      <mt-field label="姓名" placeholder="填写真实姓名" type="text" v-model="name"></mt-field>
-      <mt-field label="手机号" placeholder="填写真实手机号" type="text" v-model="phone"></mt-field>
-      <mt-field label="验证码" v-model="code">
-        <a v-on:click="rgsms" class="smsbtn" disabled>{{smstext}}</a>
-      </mt-field>
-      <mt-field></mt-field>
-      <!--<mt-button type="primary" size="normal" style="width:100%" v-on:click="register">注&nbsp;&nbsp;&nbsp;册</mt-button>-->
-      <div style="text-align: center;margin-top:-35px">
-        <mt-button size="small" type="primary" style="width:80%;" @click="register">注&nbsp;&nbsp;&nbsp;册</mt-button>
+    <div style="margin-top:2.5rem;padding:0 1rem;">
+
+      <div class="itemdiv">
+        <img class="itemimg"  src="../../assets/register/name.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.15rem;" />
+        <input class="iteminput" type="text" placeholder="姓名"  v-model="name" />
+      </div>
+
+      <div class="itemdiv">
+        <img class="itemimg"  src="../../assets/register/idcard.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.3rem;" />
+        <input class="iteminput" type="text" placeholder="身份证号"  v-model="idcard" />
+      </div>
+
+      <div class="itemdiv">
+        <img class="itemimg"  src="../../assets/register/city.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.3rem;" />
+        <div style="position:absolute;top:1.2rem;right:1rem;width:0;height:0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid #C9C9C9;"></div>
+        <!--<input class="iteminput" type="text" placeholder="所在城市"   />-->
+        <div style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;color:#9b9b9b;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;">所在城市</div>
+      </div>
+
+      <div class="itemdiv">
+        <img class="itemimg"  src="../../assets/personal/phone.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1rem;" />
+        <input class="iteminput" type="text" placeholder="手机号"  v-model="phone" @click.stop/>
+      </div>
+
+      <div class="itemdiv">
+        <img style="position: absolute;top:0.9rem;left:0.8rem;width:1rem;"  src="../../assets/personal/vericate_code.png" />
+        <input type="text" placeholder="请输入验证码"  v-model="code" style="box-sizing:border-box;padding:1rem 0 1rem 2.5rem;height:3.1rem;background-color:#EAEAEA;border-radius:0.2rem;width:61%;"/>
+        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:1em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
+      </div>
+
+      <div style="text-align: center;margin-top:2.5rem">
+        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="register">注册</mt-button>
       </div>
     </div>
   </div>
@@ -45,9 +61,6 @@
       this.stateprotocol = true
     },
     methods: {
-    	tt:function () {
-        console.log(456)
-      },
       register: function () {
     		if(!this.idcard || !this.name || !this.phone || !this.code) return Toast({message: '请完善注册信息',position: 'bottom',duration: 1500});
         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
@@ -223,4 +236,17 @@
     border-left: 1px solid #38C790
     padding-left: 6px
     color: #38C790
+  .itemdiv{
+    box-sizing:border-box;
+    position: relative;
+    margin-top:0.7rem;
+  }
+  .iteminput{
+    box-sizing:border-box;
+    padding:1rem 0 1rem 2.5rem;
+    height:3.1rem;
+    background-color:#EAEAEA;
+    border-radius:0.2rem;
+    width:99%;
+  }
 </style>

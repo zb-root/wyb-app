@@ -1,44 +1,39 @@
 <template>
-  <div>
+  <div v-bind:style="{height:height}" style="background-color:#FAFAFA">
     <i-header title="个人中心" rightNav="/" ></i-header>
-    <div style="clear:both;margin-top:0.5rem"></div>
-    <div style="margin:20px 5px 20px 15px;padding:0;display: inline-block;vertical-align: top;">
-      <div class="img" style="width:90px;height:100px;">
-        <img src="../../assets/png/default_avatar.png" width="90px" alt="avatar"/>
-      </div>
+    <div v-if="!islogin" style="width:100%;height:12rem;background-size:100% 100%;text-align: center;" v-bind:style="{'backgroundImage':'url('+bgImg+')'}">
+      <img style="width:4.5rem;margin-top:1.5rem;" src="../../assets/personal/default_avatar.png"/>
+      <router-link to="/app/login" style="display:block;font-size:1.1em;color:white;margin-top:0.5rem">请登录</router-link>
     </div>
-    <div style="margin:30px 0px 0px;padding:0;display: inline-block;width:150px;height:100px;vertical-align: top;">
-      <div v-if="!islogin">
-        <router-link to="/app/login">立即登录</router-link>
-      </div>
-      <div v-if="islogin" style="font-size: 13px;">
-        <div style="position:relative">
-          <span>{{info.name}}</span>
-          <img v-if="isInsider"  style="position: absolute; top:-3px;left:50px" src="../../assets/png/default_avatar.png" width="18px"/>
-        </div>
-        <div style="margin-top:15px;">
-          <span>{{info.phone}}</span>
-          <!--<router-link  to="/app/updatePhone/{{info.phone}}" slot="left" class="ptop"></router-link>-->
-          <a style="text-decoration:underline;margin-left:12px" @click="toPath">修改</a>
-        </div>
-        <p v-if="isInsider"  style="margin-top:15px;">所属部门：{{info.department}}</p>
+
+    <div v-if="islogin" style="width:100%;height:12rem;background-size:100% 100%;text-align: center;" v-bind:style="{'backgroundImage':'url('+bgImg+')'}">
+      <img style="width:4.5rem;margin-top:1.5rem;" src="../../assets/personal/default_avatar.png"/>
+      <div style="text-align: center;color:white;">
+        <p style="margin-top:0.3rem;font-size:1.1em;">{{info.name}}</p>
+        <p style="margin-top:0.8rem;font-size:1.2em;">
+          <span>{{info.phone}}</span>&nbsp;
+          <router-link v-bind:to="'/app/updatePhone/'+info.phone" style="display: inline-block;width:0.9rem;height:0.9rem;background-size:100% 100%" v-bind:style="{backgroundImage:'url('+modImg+')'}"></router-link>
+        </p>
+        <p v-if="isInsider" style="margin-top:0.4rem;font-size:1em;">所属部门：{{info.department}}</p>
       </div>
     </div>
 
-    <div @click="mySave">
+    <div style="margin-top:0.5rem;" @click.stop>
       <mt-cell title="我的收藏" is-link >
-        <img slot="icon" src="../../assets/png/default_avatar.png" width="24" height="24">
+        <span>（建设中）</span>
+        <img slot="icon" src="../../assets/personal/collection.jpg" width="24" height="24">
       </mt-cell>
     </div>
 
-    <div @click="mySave">
+    <div style="margin-top:0.5rem;" @click.stop>
       <mt-cell title="我的审核" is-link >
-        <img slot="icon" src="../../assets/png/default_avatar.png" width="24" height="24">
+        <span>（建设中）</span>
+        <img slot="icon" src="../../assets/personal/auditing.png" width="24" height="24">
       </mt-cell>
     </div>
 
-    <div style="margin-top:1.5rem;text-align: center" v-if="islogin" >
-      <mt-button type="primary" size="small" @click="signout"  style="width:100px;">退出登录</mt-button>
+    <div style="margin-top:1.5rem;text-align: center;" v-if="islogin" >
+      <mt-button style="background-color:#1A4B9C;color:white;width:40%;border-radius:0.3rem;" size="normal" @click="signout">退出登录</mt-button>
     </div>
   </div>
 </template>
@@ -57,7 +52,10 @@
           phone:'',
           department:''
         },
-        isInsider:false
+        isInsider:false,
+        bgImg:require('../../assets/personal/not_login.jpg'),
+        modImg:require('../../assets/personal/modImg.png'),         //修改手机号图标
+        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px'
       }
     },
     mounted: function () {

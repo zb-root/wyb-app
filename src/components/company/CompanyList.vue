@@ -11,27 +11,37 @@
           <img src="../../assets/png/search.png" height="36px" width="36px" slot="icon">
         </div>
       </div>
+
       <div style="font-size:0;">
-        <div style="display: inline-block;width:25%;height:30px;">
-          <select v-model="province" style="">
-            <option selected value="">省份</option>
+        <div class="seldiv" v-bind:style="{'background':'url('+selImg+') repeat'}">
+          <select v-model="province">
+            <option selected value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;省份</option>
             <option v-for="province in provinceList" v-bind:value="province.code">{{province.name}}</option>
           </select>
+          <img class="down" src="../../assets/png/down.png"/>
         </div>
-        <div style="display: inline-block;width:25%;height:30px;">
-          <select v-model="city" style="border-left:none">
-            <option selected value="">市</option>
+
+        <div class="seldiv" v-bind:style="{'background':'url('+selImg+') repeat'}">
+          <div class="specrator"></div>
+          <select v-model="city">
+            <option selected value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市</option>
             <option v-for="city in cityList" v-bind:value="city.code">{{city.name}}</option>
           </select>
+          <img class="down" src="../../assets/png/down.png"/>
         </div>
-        <div style="display: inline-block;width:25%;height:30px;">
-          <select v-model="product" style="border-left:none">
-            <option selected value="">产品</option>
+
+        <div class="seldiv" v-bind:style="{'background':'url('+selImg+') repeat'}">
+          <div class="specrator"></div>
+          <select v-model="product">
+            <option selected value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;产品</option>
             <option v-for="item in proList" v-bind:value="item.name">{{item.name}}</option>
           </select>
+          <img class="down" src="../../assets/png/down.png"/>
         </div>
-        <div style="display: inline-block;width:25%;height:30px;">
-          <select v-model="type" style="border-left:none">
+
+        <div class="seldiv" v-bind:style="{'background':'url('+selImg+') repeat'}">
+          <div class="specrator"></div>
+          <select v-model="type">
             <option selected value="">企业类型</option>
             <option value="生产">生产</option>
             <option value="经营">经营</option>
@@ -40,9 +50,11 @@
             <option value="运输">运输</option>
             <option value="处置">处置</option>
           </select>
+          <img class="down" src="../../assets/png/down.png" />
+          <!--<div style="display:inline-block;width:20%;height:3rem;background-repeat: no-repeat" v-bind:style="{'backgroundImage':'url('+downImg+')'}"></div>-->
         </div>
       </div>
-      <p style="line-height: 33px;color:#aaa;font-size:0.9em;padding-left:15px;margin-top:1.4rem;">匹配到 <span style="color:red;">{{total}}</span> 家企业</p>
+      <p style="line-height: 3rem;color:#aaa;font-size:0.9em;padding-left:1em;">检索到 <span style="color:red;">{{total}}</span> 家企业</p>
     </div>
 
     <div style="width:100%;margin-top:10.5rem;">
@@ -53,8 +65,11 @@
         <li v-for="item in itemlist"  style="display: block" @click="detail(item._id)">
           <div>
             <div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>
-            <div style="height:10rem;padding:17px 13px 25px 13px;position:relative;">
-              <p style="font-size: 1.2em;color:#134498"><span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>&nbsp;<span v-html="handleSearchText(item.name)"></span></p>
+            <div style="min-height:10rem;padding:17px 13px 5px 13px;position:relative;">
+              <p style="font-size: 1.2em;color:#134498;width:80%;">
+                <span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>&nbsp;
+                <span v-html="handleSearchText(item.name)"></span>
+              </p>
               <div style="border-top:1px solid #DDD;margin-top:0.6rem"></div>
               <div style="position:absolute;top:1rem;right:1rem;">
                 <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
@@ -68,7 +83,9 @@
               </div>
               <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0.13rem">
                 <img src="../../assets/png/company/address.png" style="width:1rem;height:1.2rem;position:absolute;top:0.3rem;left:0rem">
-                <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：<span v-html="handleSearchText(item.address)"></span></p>
+                <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：
+                  <span v-html="handleSearchText(item.address)"></span>
+                </p>
               </div>
               <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-0.2rem">
                 <img src="../../assets/png/company/chemical.png" style="width:1.1rem;height:1.2rem;position:absolute;top:0.25rem;left:0rem">
@@ -104,7 +121,8 @@
         search:'',
         provinceList:provinceList,
         cityList:[],
-        crtimeIcon:require('../../assets/png/company/crtime.png')
+        selImg:require('../../assets/jpg/sel_bg.jpg'),
+        downImg:require('../../assets/png/down.png')
       }
     },
     mounted: function () {
@@ -282,17 +300,36 @@
     margin-right:0.6rem
     border-radius:0.25rem
   }
+  .seldiv{
+    display: inline-block;
+    width:25%;
+    height:3rem;
+  }
+  .specrator{
+    display: inline-block;
+    width:1px;
+    height:20%;
+    background:#7B9FDF;
+  }
   select{
-    text-align :center
-    background-color:#4275D1
-    border: 1px solid #4275D1
-    width:100%
+    background: transparent;
     height:3rem
-    font-size:15px
+    font-size:14px
     outline:none;
+    color:white;
+    border:none;
+    appearance:none;
+    width:63%;
+    margin-left:5%;
   }
   select option{
     background-color:white
-    direction:rtl;
+    direction:ltr;
+    color:black
+  }
+  .down{
+    margin-left:10%;
+    width:12%;
+    height:15%
   }
 </style>

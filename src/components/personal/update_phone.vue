@@ -1,14 +1,20 @@
 <template>
   <div>
     <i-header title="修改手机号" leftNav="/"></i-header>
-    <div style="margin-top:3rem;font-size:14px;position: relative;padding:0 0 0 10px;">
-      <label>已验证手机号：</label>{{mobile}}
-      <mt-button style="position: absolute;right:20px;top:-10px;" size="small" @click="rgsms">{{smstext}}</mt-button>
-    </div>
-    <mt-field label="验证码" style="margin-top:20px; font-size:14px !important;padding:0px;" placeholder="请输入验证码" type="text" v-model="code"></mt-field>
-    <mt-field></mt-field>
-    <div style="text-align: center;margin-top:-20px">
-      <mt-button size="small" style="width:80%;margin:0 20px;" @click="toPath">下一步</mt-button>
+    <div style="margin-top:2.2rem;position: relative;padding:0 1rem;">
+      <p style="font-size:1.2em;">已验证手机号：{{mobile}}</p>
+      <div style="margin-top:0.7rem;box-sizing:border-box;position: relative;">
+        <img style="position: absolute;top:1rem;left:0.8rem;width:1rem;"  src="../../assets/personal/vericate_code.png" />
+        <input type="text" placeholder="请输入验证码"  v-model="code" style="box-sizing:border-box;padding:1rem 0 1rem 2.5rem;height:3.1rem;background-color:#EAEAEA;border-radius:0.2rem;width:61%;"/>
+        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:1em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
+      </div>
+
+      <!--<mt-field label="验证码" style="margin-top:20px; font-size:14px !important;padding:0px;" placeholder="请输入验证码" type="text" v-model="code"></mt-field>-->
+      <!--<mt-field></mt-field>-->
+      <div style="text-align: center;margin-top:1.5rem;">
+        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;" @click="toPath">下一步</mt-button>
+        <!--<mt-button style="background-color:#1A4B9C;color:white;width:40%;border-radius:0.3rem;" size="normal" @click="signout">退出登录</mt-button>-->
+      </div>
     </div>
 
   </div>
@@ -23,7 +29,7 @@
       return {
         mobile:this.$route.params.mobile,
         code:'',
-        smstext:'获取验证码',
+        smstext:'发送验证码',
         count:60
       }
     },
