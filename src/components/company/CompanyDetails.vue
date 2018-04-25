@@ -10,29 +10,57 @@
         <li class="productT" v-for="productType in operationModes" style="display: inline-block;border:1px solid" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
       </ul>
       <div>
-        <div style="font-size:1em;margin-top:1rem;color:gray;position:relative;line-height: 1.7rem">
-          <p>登记时间：{{crtime | date}}</p>
-          <p>更新时间：{{crtime | date}}</p>
+        <!--<div style="font-size:1em;margin-top:1rem;color:gray;position:relative;line-height: 1.7rem">-->
+          <!--<p>登记时间：{{crtime | date}}</p>-->
+          <!--<p>更新时间：{{crtime | date}}</p>-->
+        <!--</div>-->
+        <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;margin-top:0.8rem;">
+          <img src="../../assets/company/time.png" style="width:1rem;height:1rem;position:absolute;top:-0.05rem;left:0rem">
+          <span>登记时间：{{crtime | date}}</span>
+        </div>
+        <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;margin-top:0.7rem;">
+          <img src="../../assets/company/time.png" style="width:1rem;height:1rem;position:absolute;top:-0.05rem;left:0rem">
+          <span>更新时间：{{moditime | date}}</span>
         </div>
       </div>
-      <div style="height:1px;background-color:gray;margin-top:0.5em"></div>
+      <div style="height:1px;background-color:#ddd;margin-top:0.6em"></div>
       <div style="margin-top:0.7rem">
-        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+        <!--<div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">-->
+          <!--<p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">组织代码：{{coding}}</p>-->
+        <!--</div>-->
+        <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;">
+          <img src="../../assets/company/haomachi.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
           <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">组织代码：{{coding}}</p>
         </div>
-        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+
+        <!--<div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">-->
+          <!--<p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">固定电话：{{telephone}}</p>-->
+        <!--</div>-->
+
+        <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;margin-top:0.6rem;">
+          <img src="../../assets/company/telephone.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
           <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">固定电话：{{telephone}}</p>
         </div>
-        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
+
+        <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;margin-top:0.6rem;">
+          <img src="../../assets/company/cancel.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
           <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">是否注销：{{isCancel?'已注销':'否'}}</p>
         </div>
-        <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;">
-          <p>地址信息：{{address}}</p>
-        </div>
       </div>
-      <div style="height:1px;background-color:#ccc;margin-top:0.7em"></div>
-      <div style="font-size:1em;color:gray;position:relative;line-height: 1.5rem;margin-top:0.7rem">
-        <p>经营化学品：{{handleChemical(chemicals)}}</p>
+      <div style="height:1px;background-color:#ddd;margin-top:0.6em"></div>
+
+      <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;margin-top:0.6rem;">
+        <img src="../../assets/company/address.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
+        <p>地址信息：{{address}}</p>
+      </div>
+      <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;margin-top:0.8rem;box-sizing:border-box;">
+        <img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
+        <div style="display:inline-block;float:left;vertical-align:top;">
+          <p>经营化学品：</p>
+        </div>
+        <div style="display:inline-block;float:left;width:62%;">
+          <p>{{handleChemical(chemicals)}}</p>
+        </div>
       </div>
     </div>
 
@@ -91,7 +119,7 @@
       	return chemicals.join('、')
       },
       handleColor:function (type) {   //处理小标签字体颜色
-        console.log(type)  //生产、经营、储存、使用、运输、处置
+//        console.log(type)  //生产、经营、储存、使用、运输、处置
         let color = ''
         switch (type)
         {
