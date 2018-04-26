@@ -16,6 +16,9 @@ import companydetails from '../components/company/CompanyDetails.vue'
 import insiderdata from '../components/inside/insider_data.vue'
 import activerank from '../components/inside/active_rank.vue'
 
+//标识校验
+import idcheck from '../components/idcheck/idcheck_check.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -76,6 +79,11 @@ export default new Router({
       path: '/app/active/rank',       //当月企业活跃度排行
       name: 'activerank',
       component: activerank
+    },
+    {
+      path: '/app/idcheck/check',       //标识校验
+      name: 'idcheck',
+      component: idcheck
     }
   ]
 })
