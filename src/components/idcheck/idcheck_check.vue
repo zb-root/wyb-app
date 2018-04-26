@@ -20,7 +20,8 @@
       <p style="text-align: center;margin-top: 60%">没有数据哦！</p>
     </div>
     <div id="content" style="margin: 1em 0.3em 0.3em 0.3em;display: none">
-      <p class="title1" style="padding: 2px;">|  {{detail.chemicalName || ''}}</p><hr/>
+      <p class="title1" style="padding: 2px;">|  {{detail.chemicalName || ''}}</p>
+      <div style="border-bottom: 1px solid #CCCCCC"></div>
       <p class="title2">标识编码：{{detail._id || ''}}</p>
       <p class="title2">是否合法：是</p>
       <p class="title2">最新状态：{{state}}</p>
@@ -30,10 +31,13 @@
       <p v-if="company" class="title2">生产厂家：{{company}}</p>
       <div style="width:100%; height:1em; background-color: #F7F7F7"></div>
 
-      <p v-if="flowtos.length !== 0" class="title1" style="padding: 2px;">|  流转详情  ({{daterange}})
-      </p><hr/>
-      <div v-for="flowto in flowtos">
-        <div style="margin: 5px; padding: 3px; background: #F8F9FC">
+      <div v-if="flowtos.length !== 0" style="border-bottom: 1px solid #DDDDDD">
+        <p class="title1" style="padding: 2px;">|  流转详情
+          <span style="font-size: 0.9em">({{daterange}})</span>
+        </p>
+      </div>
+      <div v-for="(flowto, index) in flowtos">
+        <div class="flow1" v-bind:class="{flow2: index%2}">
           <p class="title3">登记时间：{{flowto.regtime | moment('YYYY-MM-DD')}}</p>
           <p v-if="flowto.type === 1" class="title3">生产数量：{{flowto.amount}}{{flowto.unit}}</p>
           <p v-if="flowto.type === 2" class="title3">销售数量：{{flowto.amount}}{{flowto.unit}}</p>
@@ -201,7 +205,15 @@
   .type{
     padding: 0 5px 0 5px
     border: 1px solid #30D17C
-    border-radius: 5px
-    /*color: #30D17C*/
+    border-radius: 3px
+  }
+  .flow1{
+    margin: 5px
+    padding: 3px
+  }
+  .flow2{
+    margin: 5px
+    padding: 3px
+    background: #F8F9FC
   }
 </style>
