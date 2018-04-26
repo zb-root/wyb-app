@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <div style="font-size:0;">
+      <div class="select" style="font-size:0;box-sizing: border-box;">
         <div class="seldiv" v-bind:style="{'background':'url('+selImg+') repeat'}">
           <select v-model="province">
             <option selected value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;省份</option>
@@ -66,10 +66,22 @@
           <div>
             <div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>
             <div style="min-height:10rem;padding:17px 13px 5px 13px;position:relative;">
-              <p style="font-size: 1.2em;color:#134498;width:80%;">
-                <span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>&nbsp;
-                <span v-html="handleSearchText(item.name)"></span>
-              </p>
+              <!--<p style="font-size: 1.2em;color:#134498;width:80%;">-->
+                <!--<span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>&nbsp;-->
+                <!--<span v-html="handleSearchText(item.name)"></span>-->
+              <!--</p>-->
+
+              <div style="font-size:1.2em;color:#134498;position:relative;box-sizing:border-box;">
+                <!--<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">-->
+                <div style="display:inline-block;float:left;vertical-align:top;">
+                  <span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>
+                </div>
+                <div style="display:inline-block;float:left;width:75%;margin-left:1rem;">
+                  <span v-html="handleSearchText(item.name)"></span>
+                </div>
+              </div>
+              <div style="clear:both;"></div>
+
               <div style="border-top:1px solid #DDD;margin-top:0.6rem"></div>
               <div style="position:absolute;top:1rem;right:1rem;">
                 <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
@@ -301,7 +313,7 @@
     border-radius:0.25rem
   }
   .seldiv{
-    display: inline-block;
+    float:left;
     width:25%;
     height:3rem;
   }
@@ -311,24 +323,24 @@
     height:20%;
     background:#7B9FDF;
   }
-  select{
+  .select select{
     background: transparent;
     height:3rem
-    font-size:14px
+    font-size:14px !important
     outline:none;
     color:white;
     border:none;
     appearance:none;
-    width:63%;
+    width:63% !important;
     margin-left:5%;
   }
-  select option{
+  .select select option{
     background-color:white
-    direction:ltr;
+    direction:ltr !important;
     color:black
   }
   .down{
-    margin-left:10%;
+    margin-left:8%;
     width:12%;
     height:15%
   }

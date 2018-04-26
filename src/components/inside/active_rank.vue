@@ -1,39 +1,44 @@
 <template>
-  <div>
+  <div style="position:relative;width:100%;" v-bind:style="{height:height}" v-bind:class="{'mengban':!isInsider}">
     <i-header title="内部数据" leftNav="/app/insider/data"></i-header>
+    <div style="position:absolute;top:30%;padding:0 1rem;width:100%;text-align: center;box-sizing: border-box;height:15rem;" v-if="!isInsider">
+      <p style="line-height:2.5rem;height:2.5rem;background-color:#1A4B9C;color:white;font-size:1.1em;">温馨提示</p>
+      <div style="background:white;padding-bottom: 2rem;">
+        <img src="../../assets/inside/nopermission.png" style="width:1.5rem;margin-top:2rem;"/>
+        <p style="line-height:2rem;height:2rem;color:#4275D1;margin-top:0.5rem;font-size:1.05em;font-weight: 600">该数据属于内部数据，您无查询权限</p>
+      </div>
+    </div>
     <div style="position:fixed;width:100%;z-index:99;top:3rem;background-color:white !important;">
-      <p style="line-height: 2.5rem" v-if="!isInsider">该数据属于内部数据，您无查阅权限。</p>
-
       <div v-if="isInsider">
-        <h3 style="text-align:center;padding:0.8rem;font-size:1.1em;">当月活跃企业数排名</h3>
-        <div style="height:1px;background-color:#ccc;"></div>
-        <div style="box-sizing: border-box;padding:0.5rem;margin:0;text-align: center">
-          <span class="top" style="width:12%">排名</span>
-          <span class="top" style="width:15%">年份</span>
-          <span class="top" style="width:21%">省份</span>
-          <span class="top" style="width:26%">
-            <p>活跃企业数</p>
-            <p>（当月）</p>
+        <h3 style="text-align:center;padding:0.8rem;font-size:1.1em;height:1.2rem;line-height:1.4rem;background-color: #1A4B9C;color:white;">当月活跃企业数排名</h3>
+        <!--<div style="height:1px;background-color:#ccc;"></div>-->
+        <div style="font-size:.95em;box-sizing: border-box;padding:0.5rem 1rem;margin:0;text-align: center;background-color:#E8ECF5;height:3.5rem;vertical-align: middle;color:#1A4B9C">
+          <p class="top" style="width:12%;vertical-align: middle;line-height: 2.5rem;font-weight:600;">排名</p>
+          <p class="top" style="width:15%;vertical-align: middle;line-height: 2.5rem;font-weight:600;">年份</p>
+          <p class="top" style="width:21%;vertical-align: middle;line-height: 2.5rem;font-weight:600;">省份</p>
+          <span class="top" style="width:26%;line-height: 1.4rem;font-weight:600;">
+            <p style="font-weight:600;">活跃企业数</p>
+            <p style="font-size:0.95em;font-weight:600;">（当月）</p>
           </span>
-          <span class="top" style="width:26%">
-            <p>活跃企业数</p>
-            <p>（上月）</p>
+          <span class="top" style="width:26%;line-height: 1.4rem;font-weight:600;">
+            <p style="font-weight:600;">活跃企业数</p>
+            <p style="font-size:0.95em;font-weight:600;">（上月）</p>
           </span>
         </div>
       </div>
     </div>
 
-    <div style="width:100%;margin-top:6rem; padding-bottom:1rem"  v-if="isInsider">
+    <div style="width:100%;margin-top:7.5rem; padding-bottom:1rem"  v-if="isInsider">
       <ul
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
         <li v-for="(item,index) in itemlist"  style="display: block">
-          <div style="box-sizing: border-box;padding:1rem 0;margin:0;text-align: center;" v-bind:class="{'signClass':item.curCount > item.preCount}">
+          <div style="font-size:0.95em;box-sizing: border-box;height:2.4rem;line-height:2.4rem;text-align: center;border-bottom: 1px solid #EEEEEE;margin:0 1rem;">
             <span class="top" style="width:12%">{{index+1}}</span>
             <span class="top" style="width:15%">{{item.year}}</span>
             <span class="top" style="width:21%">{{proText(item._id.province) || '无'}}</span>
-            <span class="top" style="width:26%">{{item.curCount}}</span>
+            <span class="top" style="width:26%;" v-bind:class="{'rise':item.curCount > item.preCount}">{{item.curCount}}</span>
             <span class="top" style="width:26%">{{item.preCount}}</span>
           </div>
         </li>
@@ -54,7 +59,8 @@
         isInsider:true,
         itemlist:[],
         page:1,
-        rows:50
+        rows:50,
+        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px'
       }
     },
     mounted: function () {
@@ -108,7 +114,10 @@
           .then(function (response) {
             Indicator.close();
             let data = response.data || {}
-            if(data.err) return Toast(data.msg)
+            if(data.err) {
+              self.isInsider = false
+            	return Toast(data.msg)
+            }
             console.log(data)
             data.rows.forEach(function (item,index) {
               self.itemlist.push(item)
@@ -136,7 +145,7 @@
     box-sizing:border-box
     float:left
   }
-  .signClass{
-    color:red
+  .rise{
+    color:#02B235
   }
 </style>

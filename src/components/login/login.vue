@@ -11,7 +11,7 @@
       <div style="margin-top:0.7rem;box-sizing:border-box;position: relative;">
         <img style="position: absolute;top:-3rem;left:0.8rem;width:1rem;"  src="../../assets/personal/vericate_code.png" />
         <input type="text" placeholder="请输入验证码"  v-model="code" style="box-sizing:border-box;padding:1rem 0 1rem 2.5rem;height:3.1rem;background-color:#EAEAEA;border-radius:0.2rem;width:61%;"/>
-        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:1em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
+        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:0.95em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
       </div>
 
 

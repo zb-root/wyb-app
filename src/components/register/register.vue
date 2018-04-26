@@ -13,11 +13,14 @@
         <input class="iteminput" type="text" placeholder="身份证号"  v-model="idcard" />
       </div>
 
-      <div class="itemdiv">
+      <div class="itemdiv" @click="open">
         <img class="itemimg"  src="../../assets/register/city.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.3rem;" />
         <div style="position:absolute;top:1.2rem;right:1rem;width:0;height:0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid #C9C9C9;"></div>
         <!--<input class="iteminput" type="text" placeholder="所在城市"   />-->
-        <div style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;color:#9b9b9b;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;">所在城市</div>
+        <!--<div style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;">-->
+          <!--{{getCityText()}}-->
+        <!--</div>-->
+        <input style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;" disabled="disabled" placeholder="所在城市" v-bind:value="getCityText()"/>
       </div>
 
       <div class="itemdiv">
@@ -28,12 +31,27 @@
       <div class="itemdiv">
         <img style="position: absolute;top:0.9rem;left:0.8rem;width:1rem;"  src="../../assets/personal/vericate_code.png" />
         <input type="text" placeholder="请输入验证码"  v-model="code" style="box-sizing:border-box;padding:1rem 0 1rem 2.5rem;height:3.1rem;background-color:#EAEAEA;border-radius:0.2rem;width:61%;"/>
-        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:1em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
+        <mt-button style="width:35%;background-color:#1A4B9C;margin-left:2%;color:white;font-size:0.95em;height:3.1rem;border-radius:0.3rem;" size="normal"  @click="rgsms">{{smstext}}</mt-button>
       </div>
 
       <div style="text-align: center;margin-top:2.5rem">
         <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="register">注册</mt-button>
       </div>
+    </div>
+
+    <div>
+      <mt-popup
+        v-model="popupVisible"
+        position="bottom"
+        style="width:100%;">
+        <div>
+          <div style="height:2.8rem;line-height: 2.8rem;padding:0 0.8rem;border-bottom:1px solid #EEEEEE">
+            <a style="color:#4275D1;float:left;" @click="cancel">取消</a>
+            <a style="color:#4275D1;float:right;" @click="selcity">确定</a>
+          </div>
+          <mt-picker :slots="slots" @change="onValuesChange" value-key="name"></mt-picker>
+        </div>
+      </mt-popup>
     </div>
   </div>
 </template>
@@ -42,6 +60,8 @@
   import axios from 'axios'
   import header from '../header/header.vue'
   import { MessageBox, Indicator, Toast } from 'mint-ui'
+  import provinceList from '../../../static/json/province.json'
+  import cityList from '../../../static/json/city.json'
   export default {
     data () {
       return {
@@ -49,18 +69,107 @@
         code: '',
         name:'',
         idcard:'',
-        phone:'',
         province:'',
         city:'',
         smstext:'发送验证码',
         stateph:'success',
-        count: 60
+        count: 60,
+        provinceList:provinceList,
+        popupVisible:false,
+        slots: [{
+          flex: 1,
+          values: provinceList,
+          className: 'slot1',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot3',
+          textAlign: 'center'
+        }],
+        nowSelPro:'11',
+        nowSelCity:'01'
       }
     },
     mounted: function () {
-      this.stateprotocol = true
+//      this.stateprotocol = true
     },
     methods: {
+      open:function () {
+//        找出defaultIndex的位置
+        this.slots = [{
+          flex: 1,
+          values: provinceList,
+          className: 'slot1',
+          textAlign: 'center',
+          value:0,
+          defaultIndex:0
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: this.getCityList(this.nowSelPro),
+          className: 'slot3',
+          textAlign: 'center',
+          value:0,
+          defaultIndex:0
+        }]
+        this.popupVisible = true
+      },
+      cancel:function () {         //选择城市弹出框取消按钮
+//        this.nowSelPro = this.province
+//        this.nowSelCity = this.city
+        this.popupVisible = false
+      },
+      selcity:function () {
+      	this.province = this.nowSelPro
+        this.city = this.nowSelCity
+        this.popupVisible = false
+      },
+      getCityList:function (procode) {
+        let data = []
+        cityList.forEach(function (item) {
+          if(item.precode == procode) data.push(item)
+        })
+        return data
+      },
+      getCityText:function () {
+      	let str = ''
+        for(let i=0;i<provinceList.length;i++){
+        	if(this.province == provinceList[i].code){
+        		str += provinceList[i].name
+            break;
+          }
+        }
+
+        for(let j=0;j<cityList.length;j++){
+          if(this.city == cityList[j].code && cityList[j].precode == this.province){
+          	str += '   '
+            str += cityList[j].name
+            break;
+          }
+        }
+        return str;
+      },
+      onValuesChange(picker, values) {       //这里主要设定省变化后市的联动
+//        console.log(111,values[0],values[1],this.getCityList(values[0].code))
+
+        if(values[0]) this.nowSelPro = values[0].code
+        if(values[1]) this.nowSelCity = values[1].code
+
+        let cityList = this.getCityList(values[0].code)
+        picker.setSlotValues(1,cityList)
+//        picker.setSlotValue(2,cityList[0])
+//        this.slots[2].values = cityList
+//        picker.setSlotValue(0,values[0])
+//        picker.setSlotValue(1,values[1])
+      },
       register: function () {
     		if(!this.idcard || !this.name || !this.phone || !this.code) return Toast({message: '请完善注册信息',position: 'bottom',duration: 1500});
         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
