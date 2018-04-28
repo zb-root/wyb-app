@@ -7,6 +7,7 @@ import login from '../components/login/login.vue'
 import register from '../components/register/register.vue'
 import updatePhone from '../components/personal/update_phone.vue'
 import newPhone from '../components/personal/newPhone.vue'
+import avatar from '../components/personal/avatar_config.vue'
 
 //企业搜索
 import companylist from '../components/company/CompanyList.vue'
@@ -34,9 +35,14 @@ export default new Router({
         {
           path: '/',
           component: personal
-        }, {
+        },
+        {
           path: 'personal',
           component: personal
+        },
+        {
+          path: 'personal/avatar',
+          component: avatar
         }
       ]
     },

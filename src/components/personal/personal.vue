@@ -7,7 +7,7 @@
     </div>
 
     <div v-if="islogin" style="width:100%;height:12rem;background-size:100% 100%;text-align: center;" v-bind:style="{'backgroundImage':'url('+bgImg+')'}">
-      <img style="width:4.5rem;margin-top:1.5rem;" src="../../assets/personal/default_avatar.png"/>
+      <img style="width:4.5rem;margin-top:1.5rem;border-radius: 50%" :src="avatarImage" @click="changeavatar"/>
       <div style="text-align: center;color:white;">
         <p style="margin-top:0.3rem;font-size:1.1em;">{{info.name}}</p>
         <p style="margin-top:0.8rem;font-size:1.2em;">
@@ -55,7 +55,9 @@
         isInsider:false,
         bgImg:require('../../assets/personal/not_login.jpg'),
         modImg:require('../../assets/personal/modImg.png'),         //修改手机号图标
-        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px'
+        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px',
+        avatarImage: '../../assets/personal/default_avatar.png'
+
       }
     },
     mounted: function () {
@@ -92,6 +94,7 @@
       },
       isLogin: function () {
         let self = this
+        let id = localStorage.getItem('id')
         let token = localStorage.getItem('token')
         axios.get(global.sso + '/user?token=' + token)
           .then(function (res) {
@@ -100,6 +103,7 @@
               localStorage.removeItem('token')
             } else {
               self.islogin = true
+              self.avatarImage = global.avatarsrc + '/avatar/' + id + '.img'
             }
           }).catch(function (error) {
           console.info(error)
@@ -136,6 +140,9 @@
         }).catch(function (error) {
           console.log(error)
         })
+      },
+      changeavatar: function () {
+        this.$router.push('/app/personal/avatar')
       }
     },
     components:{
