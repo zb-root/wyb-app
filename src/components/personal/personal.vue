@@ -103,7 +103,7 @@
               localStorage.removeItem('token')
             } else {
               self.islogin = true
-              self.avatarImage = global.avatarsrc + '/avatar/' + id + '.img'
+              self.avatarImage = global.avatarsrc + '/avatar/' + id + '.img?' + Date.parse(new Date()) / 1000
             }
           }).catch(function (error) {
           console.info(error)

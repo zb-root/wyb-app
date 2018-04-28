@@ -61,7 +61,7 @@
       getavatar: function () {
         let self = this
         let id = localStorage.getItem('id')
-        self.headerImage = global.avatarsrc + '/avatar/' + id + '.img'
+        self.headerImage = global.avatarsrc + '/avatar/' + id + '.img?' + Date.parse(new Date()) / 1000
 //        let token = localStorage.getItem('token')
 //        axios.get(global.user + '/users/' + id + '/avatar?' + Date.parse(new Date()) / 1000, {
 //          params: {
