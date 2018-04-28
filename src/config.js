@@ -5,7 +5,7 @@ let gConfig = {
   },
   development: {
     apiHost: 'http://api.wyb.jamma.cn',
-    staticHost: 'http://api.wyb.jamma.cn'
+    staticHost: 'http://www.wyb.jamma.cn'
   },
   production: {
     apiHost: 'http://api.wyb.jamma.cn',
