@@ -167,15 +167,12 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
-
   .productT {
     display:inline-block
     padding: 2px 5px 0px
     font-size:0.75em
     margin-right:0.6rem
     border-radius:0.2rem
-    display: inline-block
     border:1px solid
   }
 </style>
