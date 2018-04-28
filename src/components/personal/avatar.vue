@@ -130,6 +130,9 @@
               message: '设置成功！',
               position: 'bottom'
             })
+            setTimeout(function () {
+              self.$router.push('/app')
+            },500)
           } else {
             Toast({
               message: '保存失败！',
