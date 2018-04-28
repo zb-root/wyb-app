@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i-header title="企业详情" leftNav="/app/company/list"></i-header>
+    <!--<i-header title="企业详情" leftNav="/app/company/list"></i-header>-->
     <div style="border-top:1px solid #ccc;padding:27px 13px 13px 13px;position:relative">
       <p style="font-size: 18px;color:#134498;font-weight: bold">{{name}}</p>
       <div style="position:absolute;top:1.7rem;right:1rem;">
@@ -69,7 +69,7 @@
 
 <script type="text/ecmascript-6">
   import axios from 'axios'
-  import header from '../header/header.vue'
+//  import header from '../header/header.vue'
   import {Search,Toast,Indicator} from 'mint-ui'
   import 'vue-router'
   export default {
@@ -89,6 +89,7 @@
     },
     mounted: function () {
     	this.getdata()
+      document.title = '企业详情'
     },
     methods: {
       getdata:function () {        //模糊搜索
@@ -160,7 +161,7 @@
       }
     },
     components:{
-      'i-header': header
+//      'i-header': header
     }
   }
 </script>
