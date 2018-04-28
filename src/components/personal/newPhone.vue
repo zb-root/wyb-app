@@ -16,7 +16,7 @@
       </div>
 
       <div style="text-align: center;margin-top:1.8rem">
-        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="save">保存</mt-button>
+        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="save">确认修改</mt-button>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
                   Indicator.close()
                   return Toast({message: response.data.msg,position: 'bottom',duration: 1500});
                 }
-                Toast({message: '修改成功',position: 'bottom',duration: 1000});
+                Toast({message: '修改成功',position: 'middle',duration: 1000});
                 setTimeout(function () {
                   self.$router.push('/')
                 },1000)

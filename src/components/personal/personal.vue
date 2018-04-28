@@ -33,7 +33,7 @@
     </div>
 
     <div style="margin-top:1.5rem;text-align: center;" v-if="islogin" >
-      <mt-button style="background-color:#1A4B9C;color:white;width:40%;border-radius:0.3rem;" size="normal" @click="signout">退出登录</mt-button>
+      <mt-button style="background-color:#1A4B9C;color:white;width:40%;border-radius:0.3rem;" size="normal" @click="openConfirm">退出登录</mt-button>
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import header from '../header/header.vue'
-  import {Cell,Toast,Indicator } from 'mint-ui'
+  import {Cell,Toast,Indicator,MessageBox} from 'mint-ui'
   import 'vue-router'
   export default {
     data () {
@@ -126,6 +126,12 @@
           }).catch(function (error) {
           console.info(error)
         })
+      },
+      openConfirm:function () {
+    		let self = this;
+        MessageBox.confirm('确定要退出吗？').then(action => {
+          self.signout()
+        });
       },
       preTo:function () {
         alert(456)

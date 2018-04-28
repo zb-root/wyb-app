@@ -5,12 +5,12 @@
 
       <div class="itemdiv">
         <img class="itemimg"  src="../../assets/register/name.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.15rem;" />
-        <input class="iteminput" type="text" placeholder="姓名"  v-model="name" />
+        <input class="iteminput" type="text" placeholder="姓名   (不可更改，必填)"  v-model="name" />
       </div>
 
       <div class="itemdiv">
         <img class="itemimg"  src="../../assets/register/idcard.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.3rem;" />
-        <input class="iteminput" type="text" placeholder="身份证号"  v-model="idcard" />
+        <input class="iteminput" type="text" placeholder="身份证号   (不可更改，必填)"  v-model="idcard" />
       </div>
 
       <div class="itemdiv" @click="open">
@@ -20,12 +20,12 @@
         <!--<div style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;">-->
           <!--{{getCityText()}}-->
         <!--</div>-->
-        <input style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;" disabled="disabled" placeholder="所在城市" v-bind:value="getCityText()"/>
+        <input style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;" disabled="disabled" placeholder="所在城市   (必填)" v-bind:value="getCityText()"/>
       </div>
 
       <div class="itemdiv">
         <img class="itemimg"  src="../../assets/personal/phone.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1rem;" />
-        <input class="iteminput" type="text" placeholder="手机号"  v-model="phone" @click.stop/>
+        <input class="iteminput" type="text" placeholder="手机号   (必填)"  v-model="phone" @click.stop/>
       </div>
 
       <div class="itemdiv">
@@ -171,7 +171,7 @@
 //        picker.setSlotValue(1,values[1])
       },
       register: function () {
-    		if(!this.idcard || !this.name || !this.phone || !this.code) return Toast({message: '请完善注册信息',position: 'bottom',duration: 1500});
+    		if(!this.idcard || !this.name || !this.province || !this.city || !this.phone || !this.code) return Toast({message: '请完善注册信息',position: 'bottom',duration: 1500});
         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
         if(!reg.test(this.idcard)) return Toast({message: '身份证号不正确',position: 'bottom',duration: 1500});
 
@@ -186,6 +186,8 @@
         obj = {
           mobile: self.phone,
           name: self.name,
+          province:self.province,
+          city:self.city,
           idcard:self.idcard
         }
 
