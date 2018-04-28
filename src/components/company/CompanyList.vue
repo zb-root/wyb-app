@@ -54,7 +54,7 @@
           <!--<div style="display:inline-block;width:20%;height:3rem;background-repeat: no-repeat" v-bind:style="{'backgroundImage':'url('+downImg+')'}"></div>-->
         </div>
       </div>
-      <p style="line-height: 3rem;color:#aaa;font-size:0.9em;padding-left:1em;">检索到 <span style="color:red;">{{total}}</span> 家企业</p>
+      <p style="line-height: 3rem;color:#aaa;font-size:0.85em;padding-left:1em;">检索到 <span style="color:red;">{{total}}</span> 家企业</p>
     </div>
 
     <div style="width:100%;margin-top:10.5rem;">
@@ -71,7 +71,7 @@
                 <!--<span v-html="handleSearchText(item.name)"></span>-->
               <!--</p>-->
 
-              <div style="font-size:1.2em;color:#134498;position:relative;box-sizing:border-box;">
+              <div style="font-size:16px;color:#134498;position:relative;box-sizing:border-box;">
                 <!--<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">-->
                 <div style="display:inline-block;float:left;vertical-align:top;">
                   <span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>
@@ -86,20 +86,20 @@
               <div style="position:absolute;top:1rem;right:1rem;">
                 <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
               </div>
-              <ul style="margin-top:0.8rem">
-                <li class="productT" v-for="productType in item.operationModes" style="display: inline-block;border:1px solid" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
+              <ul style="margin-top:0.6rem">
+                <li class="productT" v-for="productType in item.operationModes" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
               </ul>
-              <div style="font-size:1em;margin-top:1rem;color:#aaa;position:relative;padding-left:1.5rem;line-height: 1.7rem">
+              <div style="font-size:14px;margin-top:8px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem">
                 <img src="../../assets/png/company/crtime.png" style="width:1.1rem;height:1.1rem;position:absolute;top:0.27rem;left:0rem">
                 <span>登记时间：{{item.crtime | date}}</span>
               </div>
-              <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0.13rem">
+              <div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0px">
                 <img src="../../assets/png/company/address.png" style="width:1rem;height:1.2rem;position:absolute;top:0.3rem;left:0rem">
                 <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：
                   <span v-html="handleSearchText(item.address)"></span>
                 </p>
               </div>
-              <div style="font-size:1em;color:#aaa;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-0.2rem">
+              <div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-8px">
                 <img src="../../assets/png/company/chemical.png" style="width:1.1rem;height:1.2rem;position:absolute;top:0.25rem;left:0rem">
                 <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">经营化学品：<span v-html="handleChemical(item.chemicals)"></span></p>
               </div>
@@ -307,10 +307,12 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .productT {
     display:inline-block
-    padding: 0.25rem 0.6rem 0.1rem
-    font-size:0.95em
+    padding: 2px 5px
+    font-size:0.8em
     margin-right:0.6rem
-    border-radius:0.25rem
+    border-radius:0.3rem
+    display: inline-block
+    border:1px solid
   }
   .seldiv{
     float:left;
