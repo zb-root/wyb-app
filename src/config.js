@@ -27,4 +27,5 @@ global.passport = apiHost + '/passport'
 global.user = apiHost + '/user'
 global.verifycode = apiHost + '/verifycode'
 global.company = apiHost + '/company'
+global.insider = apiHost + '/insider'
 global.appCertificate = false

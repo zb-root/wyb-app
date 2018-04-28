@@ -62,6 +62,7 @@
     },
     mounted: function () {
       this.isLogin()
+      this.getInsiderData()
       let self = this
       var id = localStorage.getItem('id')
       var token = localStorage.getItem('token')
@@ -104,6 +105,23 @@
             } else {
               self.islogin = true
               self.avatarImage = global.avatarsrc + '/avatar/' + id + '.img?' + Date.parse(new Date()) / 1000
+            }
+          }).catch(function (error) {
+          console.info(error)
+        })
+      },
+      getInsiderData:function () {
+    		console.log(123)
+        let self = this
+        let id = localStorage.getItem('id')
+        let token = localStorage.getItem('token')
+        axios.get(global.insider + '/info?token=' + token+'&uid='+id)
+          .then(function (res) {
+            if (res.data.err) {
+              console.log(res.data.err)
+            } else {
+            	self.isInsider = true
+              self.info.department = res.data.department
             }
           }).catch(function (error) {
           console.info(error)
