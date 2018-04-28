@@ -7,6 +7,7 @@ import login from '../components/login/login.vue'
 import register from '../components/register/register.vue'
 import updatePhone from '../components/personal/update_phone.vue'
 import newPhone from '../components/personal/newPhone.vue'
+import avatar from '../components/personal/avatar_config.vue'
 
 //企业搜索
 import companylist from '../components/company/CompanyList.vue'
@@ -15,6 +16,9 @@ import companydetails from '../components/company/CompanyDetails.vue'
 //内部数据
 import insiderdata from '../components/inside/insider_data.vue'
 import activerank from '../components/inside/active_rank.vue'
+
+//标识校验
+import idcheck from '../components/idcheck/idcheck_check.vue'
 
 Vue.use(Router)
 
@@ -31,9 +35,14 @@ export default new Router({
         {
           path: '/',
           component: personal
-        }, {
+        },
+        {
           path: 'personal',
           component: personal
+        },
+        {
+          path: 'personal/avatar',
+          component: avatar
         }
       ]
     },
@@ -76,6 +85,11 @@ export default new Router({
       path: '/app/active/rank',       //当月企业活跃度排行
       name: 'activerank',
       component: activerank
+    },
+    {
+      path: '/app/idcheck/check',       //标识校验
+      name: 'idcheck',
+      component: idcheck
     }
   ]
 })

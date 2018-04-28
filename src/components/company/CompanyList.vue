@@ -90,17 +90,17 @@
                 <li class="productT" v-for="productType in item.operationModes" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
               </ul>
               <div style="font-size:14px;margin-top:8px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem">
-                <img src="../../assets/png/company/crtime.png" style="width:1.1rem;height:1.1rem;position:absolute;top:0.27rem;left:0rem">
+                <img src="../../assets/png/company/crtime.png" style="width:1rem;height:1rem;position:absolute;top:0.27rem;left:0rem">
                 <span>登记时间：{{item.crtime | date}}</span>
               </div>
               <div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0px">
-                <img src="../../assets/png/company/address.png" style="width:1rem;height:1.2rem;position:absolute;top:0.3rem;left:0rem">
+                <img src="../../assets/png/company/address.png" style="width:0.9rem;height:1.05rem;position:absolute;top:0.25rem;left:0rem">
                 <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：
                   <span v-html="handleSearchText(item.address)"></span>
                 </p>
               </div>
               <div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-8px">
-                <img src="../../assets/png/company/chemical.png" style="width:1.1rem;height:1.2rem;position:absolute;top:0.25rem;left:0rem">
+                <img src="../../assets/png/company/chemical.png" style="width:1rem;height:1.1rem;position:absolute;top:0.25rem;left:0rem">
                 <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">经营化学品：<span v-html="handleChemical(item.chemicals)"></span></p>
               </div>
             </div>
@@ -307,10 +307,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .productT {
     display:inline-block
-    padding: 2px 5px
-    font-size:0.8em
+    padding: 2px 5px 0px
+    font-size:0.75em
     margin-right:0.6rem
-    border-radius:0.3rem
+    border-radius:0.2rem
     display: inline-block
     border:1px solid
   }

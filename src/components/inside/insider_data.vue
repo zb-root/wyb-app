@@ -305,13 +305,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .productT {
-    display:inline-block
-    padding: 0.25rem 0.6rem 0.1rem
-    font-size:0.95em
-    margin-right:0.6rem
-    border-radius:0.25rem
-  }
   .head .top{
     display:inline-block
     box-sizing:border-box

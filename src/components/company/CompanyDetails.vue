@@ -15,11 +15,11 @@
           <!--<p>更新时间：{{crtime | date}}</p>-->
         <!--</div>-->
         <div style="font-size:14px;color:#888;position:relative;padding-left:1.5rem;margin-top:0.8rem;">
-          <img src="../../assets/company/time.png" style="width:1rem;height:1rem;position:absolute;top:-0.05rem;left:0rem">
+          <img src="../../assets/company/time.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
           <span>登记时间：{{crtime | date}}</span>
         </div>
         <div style="font-size:14px;color:#888;position:relative;padding-left:1.5rem;margin-top:0.7rem;">
-          <img src="../../assets/company/time.png" style="width:1rem;height:1rem;position:absolute;top:-0.05rem;left:0rem">
+          <img src="../../assets/company/time.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
           <span>更新时间：{{moditime | date}}</span>
         </div>
       </div>
@@ -50,7 +50,7 @@
       <div style="height:1px;background-color:#ddd;margin-top:0.6em"></div>
 
       <div style="font-size:14px;color:#888;position:relative;padding-left:1.5rem;margin-top:0.6rem;">
-        <img src="../../assets/company/address.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
+        <img src="../../assets/company/address.png" style="width:0.9rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
         <p>地址信息：{{address}}</p>
       </div>
       <div style="font-size:14px;color:#888;line-height: 20px;position:relative;padding-left:1.5rem;margin-top:0.8rem;box-sizing:border-box;">
@@ -169,9 +169,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .productT {
     display:inline-block
-    padding: 2px 5px
-    font-size:0.8em
+    padding: 2px 5px 0px
+    font-size:0.75em
     margin-right:0.6rem
-    border-radius:0.3rem
+    border-radius:0.2rem
+    border:1px solid
   }
 </style>
