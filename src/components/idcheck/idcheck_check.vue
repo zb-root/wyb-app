@@ -2,22 +2,25 @@
   <div>
     <div style="position:relative;padding:1rem 1rem;background-color:#1A4B9C;">
       <div>
-        <input type="text" v-model="search" style="box-sizing:border-box; width:100%;height:2.5rem;font-size:15px;padding:0 1rem;" placeholder="根据标识搜索"/>
+        <input type="text" v-model="search" style="box-sizing:border-box; width:100%;height:2.5rem;font-size:15px;padding:0 2.5rem 0 2.5rem;" placeholder="根据标识搜索"/>
         <span></span>
       </div>
-      <div style="position:absolute;top:1.1rem;right:1.5rem;" @click="getdata">
+      <div style="position:absolute;top:1.2rem;left:1.3rem;" @click="getid(search)">
         <img src="../../assets/png/search.png" height="36px" width="36px" slot="icon">
       </div>
+      <div style="position:absolute;top:1.5rem;right:1.8rem;">
+        <img src="../../assets/png/rqcode.png"  width="25px" slot="icon">
+      </div>
 
-      <mt-popup v-model="popupVisible" popup-transition="popup-fade" position="top" style="margin-top:5em; padding: 8px; border-radius: 10px">
-        <div v-for="id in ids">
-          <p class="ids" style="padding: 5px" @click="getid(id)">{{id}}</p>
-        </div>
-      </mt-popup>
+      <!--<mt-popup v-model="popupVisible" popup-transition="popup-fade" position="top" style="margin-top:5em; padding: 8px; border-radius: 10px">-->
+        <!--<div v-for="id in ids">-->
+          <!--<p class="ids" style="padding: 5px" @click="getid(id)">{{id}}</p>-->
+        <!--</div>-->
+      <!--</mt-popup>-->
     </div>
 
     <div id="nodata" style="display: none">
-      <p style="text-align: center;margin-top: 60%">没有数据哦！</p>
+      <p style="text-align: center;margin-top: 60%">没有检索到匹配的标识！</p>
     </div>
     <div id="content" style="margin: 1em 0.3em 0.3em 0.3em;display: none">
       <p class="title1" style="padding: 2px;">|  {{detail.chemicalName || ''}}</p>
@@ -96,30 +99,31 @@
     mounted: function () {
     },
     methods: {
-      getdata: function () {       //模糊搜索  标识编码
-        Indicator.open({spinnerType: 'fading-circle'})
-        this.company = ''
-        document.getElementById('content').style.display = 'none'
-        let self = this
-        axios.get(global.company+'/signSearch?search='+self.search,{
-        })
-          .then(function (response) {
-            let data = response.data || {}
-            self.ids = data.rows
-            Indicator.close()
-            if(self.search && data.rows.length>0){
-              self.popupVisible = true
-              document.getElementById('nodata').style.display = 'none'
-            }else{
-              document.getElementById('nodata').style.display = 'block'
-            }
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      },
+//      getdata: function () {       //模糊搜索  标识编码
+//        Indicator.open({spinnerType: 'fading-circle'})
+//        this.company = ''
+//        document.getElementById('content').style.display = 'none'
+//        let self = this
+//        axios.get(global.company+'/signSearch?search='+self.search,{
+//        })
+//          .then(function (response) {
+//            let data = response.data || {}
+//            self.ids = data.rows
+//            Indicator.close()
+//            if(self.search && data.rows.length>0){
+//              self.popupVisible = true
+//              document.getElementById('nodata').style.display = 'none'
+//            }else{
+//              document.getElementById('nodata').style.display = 'block'
+//            }
+//          })
+//          .catch(function (error) {
+//            console.log(error)
+//          })
+//      },
       getid: function (param) {
-        this.search = param
+        let id = null
+        param? id = param : id=null
         this.popupVisible = false
         this.code = param
         let self = this
@@ -129,38 +133,45 @@
         })
           .then(function (response) {
             self.detail = response.data || {}
-            Indicator.close()
-            self.detail.factoryInfo? self.company=self.detail.factoryInfo.company.name : ''
-            self.detail.factoryInfo? self.crtime=self.detail.factoryInfo.crtime : ''
-            self.crtime = moment(self.detail.factoryInfo? self.detail.factoryInfo.crtime : '').format('YYYY-MM-DD')
-            self.detail.storageInfo? self.ownership=self.detail.storageInfo.companyName : ''
-            switch (self.detail.state) {
-              case 0:
-                self.state = '新生成-可用于生产'
-                break;
-              case 1:
-                self.state = '已生产入库-可用于使用、销售和处置'
-                break;
-              case 2:
-                self.state = '已销售出库-可用于运输登记和购买入库'
-                break;
-              case 3:
-                self.state = '已购买入库-可用于使用、销售和处置'
-                break;
-              case 4:
-                self.state = '已使用出库-可用于回库'
-                break;
-              case 5:
-                self.state = '已处置-不可用'
-                break;
-              case 6:
-                self.state = '已转让-不可用'
-                break;
-              case 7:
-                self.state = '已丢失被盗-不可用'
-                break;
+            if(self.detail._id){
+              self.detail.factoryInfo? self.company=self.detail.factoryInfo.company.name : ''
+              self.detail.factoryInfo? self.crtime=self.detail.factoryInfo.crtime : ''
+              self.crtime = moment(self.detail.factoryInfo? self.detail.factoryInfo.crtime : '').format('YYYY-MM-DD')
+              self.detail.storageInfo? self.ownership=self.detail.storageInfo.companyName : ''
+              switch (self.detail.state) {
+                case 0:
+                  self.state = '新生成-可用于生产'
+                  break;
+                case 1:
+                  self.state = '已生产入库-可用于使用、销售和处置'
+                  break;
+                case 2:
+                  self.state = '已销售出库-可用于运输登记和购买入库'
+                  break;
+                case 3:
+                  self.state = '已购买入库-可用于使用、销售和处置'
+                  break;
+                case 4:
+                  self.state = '已使用出库-可用于回库'
+                  break;
+                case 5:
+                  self.state = '已处置-不可用'
+                  break;
+                case 6:
+                  self.state = '已转让-不可用'
+                  break;
+                case 7:
+                  self.state = '已丢失被盗-不可用'
+                  break;
+              }
+              document.getElementById('nodata').style.display = 'none'
+              document.getElementById('content').style.display = 'block'
+            }else{
+              document.getElementById('content').style.display = 'none'
+              document.getElementById('nodata').style.display = 'block'
             }
-            document.getElementById('content').style.display = 'block'
+            Indicator.close()
+
           })
           .catch(function (error) {
             console.log(error)
