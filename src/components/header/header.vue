@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-header v-bind:title='title' fixed style="height:3rem; font-size:1.2em;background-color:#1A4B9C">/*background-color:#1A4B9C*/
+    <mt-header v-bind:title='title' fixed style="height:3rem; font-size:1.2em;background-color:#1E1E1E">/*background-color:#1A4B9C*/
       <router-link v-bind:to="leftNav" slot="left" v-if="isLeftNav">
         <mt-button icon="back" style="font-size:0.8em">返回</mt-button>
       </router-link>

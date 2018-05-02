@@ -7,7 +7,7 @@
     </div>
 
     <div v-if="islogin" style="width:100%;height:12rem;background-size:100% 100%;text-align: center;" v-bind:style="{'backgroundImage':'url('+bgImg+')'}">
-      <img style="width:4.5rem;margin-top:1.5rem;border-radius: 50%" :src="avatarImage" @click="changeavatar"/>
+      <img style="width:4.5rem;margin-top:1.5rem;border-radius: 50%" :src="avatarImage" @error="imageLoadOnError" @click="changeavatar"/>
       <div style="text-align: center;color:white;">
         <p style="margin-top:0.3rem;font-size:1.1em;">{{info.name}}</p>
         <p style="margin-top:0.8rem;font-size:1.2em;">
@@ -57,7 +57,6 @@
         modImg:require('../../assets/personal/modImg.png'),         //修改手机号图标
         height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px',
         avatarImage: '../../assets/personal/default_avatar.png'
-
       }
     },
     mounted: function () {
@@ -83,6 +82,9 @@
       }
     },
     methods: {
+      imageLoadOnError: function() {
+        this.avatarImage = global.avatarsrc + '/avatar/default_avatar.png'
+      },
     	mySave:function () {
         Toast({
           message: '该功能尚未开放，请耐心等待',
