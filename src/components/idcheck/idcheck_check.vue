@@ -27,11 +27,15 @@
       <div style="border-bottom: 1px solid #CCCCCC"></div>
       <p class="title2">标识编码：{{detail._id || ''}}</p>
       <p class="title2">是否合法：是</p>
-      <p class="title2">最新状态：{{state}}</p>
+      <p class="title2">最新状态：<span v-if="detail.state!==4 && detail.state!==5 && detail.state!==7" style="font-weight: bold">{{state}}</span><span v-if="detail.state===4 || detail.state===5 || detail.state===7" style="color: #FF0000;font-weight: bold">{{state}}</span></p>
 
       <p v-if="company" class="title2" >生产日期：{{crtime}}</p>
-      <p class="title2">生产规格：{{detail.amount}}{{detail.unit}}</p>
+      <p class="title2">生产规格：{{detail.amount}} {{detail.unit}}</p>
       <p v-if="company" class="title2">生产厂家：{{company}}</p>
+      <div style="border-bottom: 1px solid #CCCCCC"></div>
+      <p class="title2" style="">归属企业：{{storageInfo}}</p>
+      <p class="title2">是否可用：<span v-if="detail.state!==4 && detail.state!==5 && detail.state!==7" style="font-weight: bold">{{available}}</span><span v-if="detail.state===4 || detail.state===5 || detail.state===7" style="color: #FF0000;font-weight: bold">{{available}}</span>
+      </p>
       <div style="width:100%; height:1em; background-color: #F7F7F7"></div>
 
       <div v-if="flowtos.length !== 0" style="border-bottom: 1px solid #DDDDDD">
@@ -90,6 +94,8 @@
         ids: [],
         detail: {},
         company: '',
+        storageInfo: '',
+        available: '',
         crtime: '',
         ownership: '',
         state: '',
@@ -176,33 +182,42 @@
             self.detail = response.data || {}
             if(self.detail._id){
               self.detail.factoryInfo? self.company=self.detail.factoryInfo.company.name : ''
+              self.detail.storageInfo? self.storageInfo=self.detail.storageInfo.companyName : ''
               self.detail.factoryInfo? self.crtime=self.detail.factoryInfo.crtime : ''
               self.crtime = moment(self.detail.factoryInfo? self.detail.factoryInfo.crtime : '').format('YYYY-MM-DD')
               self.detail.storageInfo? self.ownership=self.detail.storageInfo.companyName : ''
               switch (self.detail.state) {
                 case 0:
-                  self.state = '新生成-可用于生产'
+                  self.state = '新生成'
+                  self.available = '可用'
                   break;
                 case 1:
-                  self.state = '已生产入库-可用于使用、销售和处置'
+                  self.state = '生产'
+                  self.available = '可用'
                   break;
                 case 2:
-                  self.state = '已销售出库-可用于运输登记和购买入库'
+                  self.state = '销售'
+                  self.available = '可用'
                   break;
                 case 3:
-                  self.state = '已购买入库-可用于使用、销售和处置'
+                  self.state = '购买'
+                  self.available = '可用'
                   break;
                 case 4:
-                  self.state = '已使用出库-可用于回库'
+                  self.state = '使用'
+                  self.available = '不可用'
                   break;
                 case 5:
-                  self.state = '已处置-不可用'
+                  self.state = '处置'
+                  self.available = '不可用'
                   break;
                 case 6:
-                  self.state = '已转让-不可用'
+                  self.state = '转让'
+                  self.available = '可用'
                   break;
                 case 7:
-                  self.state = '已丢失被盗-不可用'
+                  self.state = '丢失被盗'
+                  self.available = '不可用'
                   break;
               }
               document.getElementById('nodata').style.display = 'none'
