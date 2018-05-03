@@ -38,7 +38,10 @@
             <span class="top" style="width:12%">{{index+1}}</span>
             <span class="top" style="width:15%">{{item.year}}</span>
             <span class="top" style="width:21%">{{proText(item._id.province) || '无'}}</span>
-            <span class="top" style="width:26%;" v-bind:class="{'rise':item.curCount > item.preCount}">{{item.curCount}}</span>
+            <span class="top" style="width:26%;" v-bind:class="{'rise':item.curCount > item.preCount}">
+              {{item.curCount}}
+              <img v-if="item.curCount > item.preCount" src="../../assets/inside/rise.png" style="position: relative; width: 25%;top:5px"/>
+            </span>
             <span class="top" style="width:26%">{{item.preCount}}</span>
           </div>
         </li>

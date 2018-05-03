@@ -48,10 +48,13 @@
         <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;">{{proText()}}{{typeText()}} <span style="color:red;">{{selNum}}</span> {{selName}}，在全国排名第 <span style="color:red;">{{selRank}}</span> 名</p>
         <p style="text-align: right;font-size:0.9em;"><a @click="toActiveRank" style="text-decoration: underline;color:#4275D1;">当月活跃企业数排名</a></p>
         <div style="box-sizing: border-box;padding:0.8rem 0.5rem;text-align: center;background-color:#F7F7F7;height: 2.5rem;margin:0;margin-top:0.5rem;">
-          <span class="top" style="width:18%">排名</span>
-          <span class="top" style="width:26%">年份</span>
-          <span class="top" style="width:26%">省份</span>
-          <span class="top" style="width:30%">{{typeText()}}</span>
+          <span class="top" style="width:15%">排名</span>
+          <span class="top" style="width:25%">年份</span>
+          <span class="top" style="width:25%">省份</span>
+          <span class="top" style="width:30%">
+            {{typeText()}}
+            <img @click="getdata(1)" src="../../assets/inside/order.png" style="width: 6%;position: absolute;right: 1.5em;margin-top: -0.3em">
+          </span>
         </div>
       </div>
     </div>
@@ -93,6 +96,7 @@
         selRank:0,
         selName:'家',
         itemlist:[],
+        alldata: [],
         page:0,
         rows:20,
         total:0,
@@ -205,16 +209,30 @@
         }
         return text
       },
-      getdata:function () {        //模糊搜索
+      getdata:function (param) {        //模糊搜索
         this.page = 0
         this.total = 0
         this.selNum = 0
         this.selRank = 0
         this.itemlist = []
         Indicator.open();
-        this.loadMore()
+        this.loadMore(param)
       },
-      loadMore:function () {   //下拉加载更多的方法
+      compare1: function(property){
+        return function(a,b){
+          var value1 = a[property];
+          var value2 = b[property];
+          return value1 - value2;
+        }
+      },
+      compare2: function(property){
+        return function(a,b){
+          var value1 = a[property];
+          var value2 = b[property];
+          return value2 - value1;
+        }
+      },
+      loadMore:function (param) {   //下拉加载更多的方法
         if(this.page >= this.total && this.page !=0 ) return;
         this.page++
         let self = this
@@ -232,8 +250,18 @@
         })
           .then(function (response) {
             Indicator.close();
-            console.log(response)
             let data = response.data || {}
+            console.info(self.alldata)
+            if(param){
+              console.info("a")
+              if(self.alldata[self.alldata.length-1].count > self.alldata[0].count){
+                data.rows=self.alldata.sort(self.compare2('count'))
+              }else{
+                data.rows=self.alldata.sort(self.compare1('count'))
+              }
+            }else{
+              data.rows = response.data.rows
+            }
             if(data.err) {
               self.isInsider = false
             	return Toast(data.msg)
@@ -245,6 +273,7 @@
                 self.selRank = index + 1
               }
             })
+            self.alldata = self.itemlist
             self.loading = false
             self.total = data.total
           })
@@ -252,7 +281,7 @@
             self.loading = false
             console.log(error)
           })
-      },
+      }
     },
     watch:{
     	year:function () {
