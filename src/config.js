@@ -28,4 +28,5 @@ global.user = apiHost + '/user'
 global.verifycode = apiHost + '/verifycode'
 global.company = apiHost + '/company'
 global.insider = apiHost + '/insider'
+global.wechat = apiHost + '/wechat'
 global.appCertificate = false
