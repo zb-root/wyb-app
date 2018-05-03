@@ -32,9 +32,15 @@
       </mt-cell>
     </div>
 
-    <div style="margin-top:1.5rem;text-align: center;" v-if="islogin" >
-      <mt-button style="background-color:#1A4B9C;color:white;width:40%;border-radius:0.3rem;" size="normal" @click="openConfirm">退出登录</mt-button>
+    <div style="margin-top:0.5rem;" @click="openConfirm">
+      <mt-cell title="退出登录" is-link >
+        <img slot="icon" src="../../assets/personal/auditing.png" width="24" height="24">
+      </mt-cell>
     </div>
+
+    <!--<div style="margin-top:1.5rem;text-align: center;" v-if="islogin" >-->
+      <!--<mt-button style="background-color:#1A4B9C;color:white;width:40%;border-radius:0.3rem;" size="normal" @click="openConfirm">退出登录</mt-button>-->
+    <!--</div>-->
   </div>
 </template>
 
