@@ -60,13 +60,13 @@
           <p v-if="flowto.type === 7" class="title3">丢失/被盗厂家：{{flowto.company.name}}</p>
 
           <p class="title3">标识状态：
-            <span class="type" style="color:#F76209; border-color: #F76209" v-if="flowto.type === 1">生产</span>
+            <span class="type" style="color:#0000FF; border-color: #0000FF" v-if="flowto.type === 1">生产</span>
             <span class="type" style="color:#0000FF; border-color: #0000FF" v-if="flowto.type === 2">销售</span>
-            <span class="type" style="color:#00FF80; border-color: #00FF80" v-if="flowto.type === 3">购买</span>
-            <span class="type" style="color:#800080; border-color: #800080" v-if="flowto.type === 4">使用</span>
-            <span class="type" style="color:#FFFF00; border-color: #FFFF00" v-if="flowto.type === 5">处置</span>
-            <span class="type" style="color:#00FFFF; border-color: #00FFFF" v-if="flowto.type === 6">转让</span>
-            <span class="type" style="color:#E80500; border-color: #E80500" v-if="flowto.type === 7">丢失/被盗</span>
+            <span class="type" style="color:#0000FF; border-color: #0000FF" v-if="flowto.type === 3">购买</span>
+            <span class="type" style="color:#FF0000; border-color: #FF0000" v-if="flowto.type === 4">使用</span>
+            <span class="type" style="color:#FF0000; border-color: #FF0000" v-if="flowto.type === 5">处置</span>
+            <span class="type" style="color:#0000FF; border-color: #0000FF" v-if="flowto.type === 6">转让</span>
+            <span class="type" style="color:#FF0000; border-color: #FF0000" v-if="flowto.type === 7">丢失/被盗</span>
           </p>
         </div>
       </div>
