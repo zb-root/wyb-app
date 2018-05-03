@@ -117,6 +117,8 @@
   import {Search,Toast,Indicator} from 'mint-ui'
   import provinceList from '../../../static/json/province.json'
   import cityList from '../../../static/json/city.json'
+  import wx from 'weixin-js-sdk'
+  import jsonp from 'jsonp'
   export default {
     data () {
       return {
@@ -138,15 +140,68 @@
       }
     },
     mounted: function () {
+    	this.initConfig()
     	this.loadMore()
       this.getProduct()
     },
     methods: {
+      initConfig:function () {
+      	let self = this
+        let url = location.href.split('#')[0]
+        axios.get(global.wechat+'/api/jsconfig?url='+url,{})
+          .then(function (res) {
+            let data = res.data || {}
+            wx.config({
+              debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+              appId: data.appId, // 必填，公众号的唯一标识
+              timestamp: data.timestamp, // 必填，生成签名的时间戳
+              nonceStr: data.nonceStr, // 必填，生成签名的随机串
+              signature: data.signature,// 必填，签名
+              jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function () {
+              wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                  let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                  let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+//                  let speed = res.speed; // 速度，以米/每秒计
+//                  let accuracy = res.accuracy; // 位置精度
+                  if(latitude && longitude){
+                    self.setCityCode(latitude,longitude)
+                  }
+                }
+              });
+            })
+            wx.error(function(res){
+              // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+              alert(res)
+            });
+          })
+      },
+      setCityCode:function (latitude,longitude) {
+        let self = this
+        jsonp('http://api.map.baidu.com/geocoder/v2/?location='+latitude+','+longitude+'&output=json&pois=0&ak=C6MDDbngC73PDlo6ifrzISzG', null, (err, data) => {
+          if (err) {
+            console.error(err.message);
+          } else {
+            let result = data.result || {}
+            let code = (result.addressComponent || {}).adcode || ''
+            if(code && code.length > 3){
+              let province = code.substr(0,2)
+              let city = code.substr(2,2)
+              self.province = province
+              setTimeout(function () {
+                self.city = city
+              },100)
+            }
+          }
+        })
+      },
       getdata:function () {        //模糊搜索
         this.page = 0;
         this.total = 0;
         this.itemlist = []
-        Indicator.open();
         this.loadMore()
       },
       handleColor:function (type) {   //处理小标签字体颜色
@@ -191,8 +246,9 @@
       },
       handleChemical:function (chemicals) {
         chemicals = chemicals || []
-        if(this.product && chemicals.length){
-          let reg = new RegExp(".*"+this.product+'.*');
+        let sign = this.product || this.search
+        if(sign && chemicals.length){
+          let reg = new RegExp(".*"+sign+'.*');
 
           let data = []
           chemicals.forEach(function (item) {           //这里主要是把包含关键字的化学药品放前面，用以标红
@@ -205,12 +261,12 @@
             }
           })
           let str = data.join('、')
-          let strData = str.split(this.product)
+          let strData = str.split(sign)
           let returnStr = ''
           if(strData.length > 1){
             for(let i=0;i<strData.length;i++){
               returnStr += strData[i]
-              if(i != strData.length-1) returnStr += '<span style="color:red">'+ this.product +'</span>'
+              if(i != strData.length-1) returnStr += '<span style="color:red">'+ sign +'</span>'
             }
             return returnStr
           }
@@ -234,6 +290,7 @@
       },
       loadMore:function () {   //下拉加载更多的方法
         if(this.page >= this.total && this.page !=0 ) return;
+        Indicator.open();
         this.page++
         let self = this
         self.loading = true
@@ -259,6 +316,7 @@
           })
           .catch(function (error) {
             self.loading = false
+            Indicator.close();
             console.log(error)
           })
       },
