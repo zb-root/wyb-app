@@ -13,14 +13,10 @@
         <input class="iteminput" type="text" placeholder="身份证号   (不可更改，必填)"  v-model="idcard" />
       </div>
 
-      <div class="itemdiv" @click="open">
+      <div class="itemdiv" sty="background-color:red;" @click="open">
         <img class="itemimg"  src="../../assets/register/city.png" style="position: absolute; top:0.9rem; left:0.8rem; width:1.3rem;" />
-        <div style="position:absolute;top:1.2rem;right:1rem;width:0;height:0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid #C9C9C9;"></div>
-        <!--<input class="iteminput" type="text" placeholder="所在城市"   />-->
-        <!--<div style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;">-->
-          <!--{{getCityText()}}-->
-        <!--</div>-->
-        <input style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;" disabled="disabled" placeholder="所在城市   (必填)" v-bind:value="getCityText()"/>
+        <div style="padding-left:1rem;height:3.1rem;background-color:#EAEAEA;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;"><span v-html="getCityText()"></span></div>
+        <!--<input style="padding-left:1rem;height:3.1rem;box-sizing:border-box;padding:1.15rem 0 1rem 2.5rem;border-radius:0.2rem;width:99%;" placeholder="所在城市   (必填)" v-bind:value="getCityText()"/>-->
       </div>
 
       <div class="itemdiv">
@@ -226,7 +222,13 @@
             break;
           }
         }
-        return str;
+        if(str){
+        	return '<span style="">'+ str +'</span>'
+        }else{
+        	console.log(123)
+          return '<span style="color:#838383">所在城市   (必填)</span>'
+        }
+//        return str || '所在城市   (必填)';
       },
       onValuesChange(picker, values) {       //这里主要设定省变化后市的联动
 //        console.log(111,values[0],values[1],this.getCityList(values[0].code))
