@@ -38,7 +38,7 @@
       </p>
       <div style="width:100%; height:1em; background-color: #F7F7F7"></div>
 
-      <div v-if="flowtos.length !== 0" style="border-bottom: 1px solid #DDDDDD">
+      <div style="border-bottom: 1px solid #DDDDDD">
         <p class="title1" style="padding: 2px;">|  流转详情
           <span style="font-size: 0.9em">({{daterange}})</span>
         </p>
@@ -46,21 +46,21 @@
       <div v-for="(flowto, index) in flowtos">
         <div class="flow1" v-bind:class="{flow2: index%2}">
           <p class="title3">登记时间：{{flowto.regtime | moment('YYYY-MM-DD')}}</p>
-          <p v-if="flowto.type === 1" class="title3">生产数量：{{flowto.amount}}{{flowto.unit}}</p>
-          <p v-if="flowto.type === 2" class="title3">销售数量：{{flowto.amount}}{{flowto.unit}}</p>
-          <p v-if="flowto.type === 3" class="title3">购买数量：{{flowto.amount}}{{flowto.unit}}</p>
-          <p v-if="flowto.type === 4" class="title3">使用数量：{{flowto.amount}}{{flowto.unit}}</p>
-          <p v-if="flowto.type === 5" class="title3">处置数量：{{flowto.amount}}{{flowto.unit}}</p>
-          <p v-if="flowto.type === 6" class="title3">转让数量：{{flowto.amount}}{{flowto.unit}}</p>
+          <p v-if="flowto.type === 1" class="title3">生产数量：{{flowto.amount}} {{flowto.unit}}</p>
+          <p v-if="flowto.type === 2" class="title3">销售数量：{{flowto.amount}} {{flowto.unit}}</p>
+          <p v-if="flowto.type === 3" class="title3">购买数量：{{flowto.amount}} {{flowto.unit}}</p>
+          <p v-if="flowto.type === 4" class="title3">使用数量：{{flowto.amount}} {{flowto.unit}}</p>
+          <p v-if="flowto.type === 5" class="title3">处置数量：{{flowto.amount}} {{flowto.unit}}</p>
+          <p v-if="flowto.type === 6" class="title3">转让数量：{{flowto.amount}} {{flowto.unit}}</p>
           <p v-if="flowto.type === 7" class="title3">丢失/被盗数量：{{flowto.amount}}{{flowto.unit}}</p>
 
-          <p v-if="flowto.type === 1" class="title3">生产厂家：{{flowto.company.name}}</p>
-          <p v-if="flowto.type === 2" class="title3">销售厂家：{{flowto.company.name}}</p>
-          <p v-if="flowto.type === 3" class="title3">购买厂家：{{flowto.company.name}}</p>
-          <p v-if="flowto.type === 4" class="title3">使用厂家：{{flowto.company.name}}</p>
-          <p v-if="flowto.type === 5" class="title3">处置厂家：{{flowto.company.name}}</p>
+          <p v-if="flowto.type === 1" class="title3">生产单位：{{flowto.company.name}}</p>
+          <p v-if="flowto.type === 2" class="title3">销售单位：{{flowto.company.name}}</p>
+          <p v-if="flowto.type === 3" class="title3">购买单位：{{flowto.company.name}}</p>
+          <p v-if="flowto.type === 4" class="title3">使用单位：{{flowto.company.name}}</p>
+          <p v-if="flowto.type === 5" class="title3">处置单位：{{flowto.company.name}}</p>
           <p v-if="flowto.type === 6" class="title3">转让单位：{{flowto.company.name}}</p>
-          <p v-if="flowto.type === 6" class="title3">接收单位：{{flowto.ext.company.name}}</p>
+          <!--<p v-if="flowto.type === 6" class="title3">接收单位：{{flowto.ext.company.name}}</p>-->
           <p v-if="flowto.type === 7" class="title3">丢失/被盗厂家：{{flowto.company.name}}</p>
 
           <p class="title3">标识状态：
