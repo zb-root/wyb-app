@@ -31,7 +31,7 @@
 
       <p v-if="company" class="title2" >生产日期：{{crtime}}</p>
       <p class="title2">生产规格：{{detail.amount}} {{detail.unit}}</p>
-      <p v-if="company" class="title2">生产厂家：{{company}}</p>
+      <p v-if="company" class="title2">生产单位：{{company}}</p>
       <div style="border-bottom: 1px solid #CCCCCC"></div>
       <p class="title2" style="">归属企业：{{storageInfo}}</p>
       <p class="title2">是否可用：<span v-if="detail.state!==4 && detail.state!==5 && detail.state!==7" style="font-weight: bold">{{available}}</span><span v-if="detail.state===4 || detail.state===5 || detail.state===7" style="color: #FF0000;font-weight: bold">{{available}}</span>
@@ -61,7 +61,7 @@
           <p v-if="flowto.type === 5" class="title3">处置单位：{{flowto.company.name}}</p>
           <p v-if="flowto.type === 6" class="title3">转让单位：{{flowto.company.name}}</p>
           <!--<p v-if="flowto.type === 6" class="title3">接收单位：{{flowto.ext.company.name}}</p>-->
-          <p v-if="flowto.type === 7" class="title3">丢失/被盗厂家：{{flowto.company.name}}</p>
+          <p v-if="flowto.type === 7" class="title3">丢失/被盗单位：{{flowto.company.name}}</p>
 
           <p class="title3">标识状态：
             <span class="type" style="color:#0000FF; border-color: #0000FF" v-if="flowto.type === 1">生产</span>
