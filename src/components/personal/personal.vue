@@ -33,8 +33,8 @@
     </div>
 
     <div style="margin-top:0.5rem;" @click="openConfirm">
-      <mt-cell title="退出登录" is-link >
-        <img slot="icon" src="../../assets/personal/auditing.png" width="24" height="24">
+      <mt-cell title="        退出登录" is-link >
+        <img slot="icon" src="../../assets/personal/signout.png" width="24" height="24">
       </mt-cell>
     </div>
 
