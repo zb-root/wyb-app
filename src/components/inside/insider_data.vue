@@ -45,7 +45,7 @@
       </div>
       <div style="clear:both;"></div>
       <div class="head" v-if="isInsider" style="padding:0 0.9rem;">
-        <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;">{{proText()}}{{typeText()}} <span style="color:red;">{{selNum}}</span> {{selName}}，在全国排名第 <span style="color:red;">{{selRank}}</span> 名</p>
+        <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;">{{proText()}}{{typeText()}} <span style="color:red;">{{selNum}}</span> {{selName}}，在全国排名第 <span style="color:red;">{{selRank || ""}}</span> 名</p>
         <p style="text-align: right;font-size:0.9em;"><a @click="toActiveRank" style="text-decoration: underline;color:#4275D1;">当月活跃企业数排名</a></p>
         <div style="box-sizing: border-box;padding:0.8rem 0.5rem;text-align: center;background-color:#F7F7F7;height: 2.5rem;margin:0;margin-top:0.5rem;">
           <span class="top" style="width:15%">排名</span>
@@ -82,11 +82,13 @@
   import header from '../header/header.vue'
   import {Search,Toast,Indicator} from 'mint-ui'
   import provinceList from '../../../static/json/province.json'
+  import wx from 'weixin-js-sdk'
+  import jsonp from 'jsonp'
   export default {
     data () {
       return {
       	year:new Date().getFullYear(),
-        province:'44',
+        province:'3',
         type:'1',
         yearList:this.getYearList(),
         provinceList:provinceList,
@@ -107,8 +109,58 @@
     },
     mounted: function () {
       this.loadMore()
+      this.initConfig()
     },
     methods: {
+      initConfig:function () {
+        let self = this
+        let url = location.href.split('#')[0]
+        axios.get(global.wechat+'/api/jsconfig?url='+url,{})
+          .then(function (res) {
+            let data = res.data || {}
+            wx.config({
+              debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+              appId: data.appId, // 必填，公众号的唯一标识
+              timestamp: data.timestamp, // 必填，生成签名的时间戳
+              nonceStr: data.nonceStr, // 必填，生成签名的随机串
+              signature: data.signature,// 必填，签名
+              jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function () {
+              wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                  let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                  let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+//                  let speed = res.speed; // 速度，以米/每秒计
+//                  let accuracy = res.accuracy; // 位置精度
+                  if(latitude && longitude){
+                    self.setCityCode(latitude,longitude)
+                  }
+                }
+              });
+            })
+            wx.error(function(res){
+              // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+              alert(res)
+            });
+          })
+      },
+      setCityCode:function (latitude,longitude) {
+        let self = this
+        jsonp('http://api.map.baidu.com/geocoder/v2/?location='+latitude+','+longitude+'&output=json&pois=0&ak=C6MDDbngC73PDlo6ifrzISzG', null, (err, data) => {
+          if (err) {
+            console.error(err.message);
+          }else{
+            let result = data.result || {}
+            let code = (result.addressComponent || {}).adcode || ''
+            if(code && code.length > 3){
+              let province = code.substr(0,2)
+              self.province = province
+            }
+          }
+        })
+      },
     	toActiveRank:function () {
         this.$router.push('/app/active/rank')
       },

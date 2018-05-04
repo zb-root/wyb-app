@@ -141,7 +141,6 @@
     },
     mounted: function () {
     	this.initConfig()
-    	this.loadMore()
       this.getProduct()
     },
     methods: {
@@ -160,6 +159,10 @@
               jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
             });
             wx.ready(function () {
+              Indicator.open({
+                text: '自动定位中...',
+                spinnerType: 'fading-circle'
+              });
               wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
@@ -175,14 +178,20 @@
             })
             wx.error(function(res){
               // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+              this.loadMore()
               alert(res)
             });
+          })
+          .catch(function (error) {
+            Indicator.close()
           })
       },
       setCityCode:function (latitude,longitude) {
         let self = this
         jsonp('http://api.map.baidu.com/geocoder/v2/?location='+latitude+','+longitude+'&output=json&pois=0&ak=C6MDDbngC73PDlo6ifrzISzG', null, (err, data) => {
+          Indicator.close()
           if (err) {
+            this.loadMore()
             console.error(err.message);
           } else {
             let result = data.result || {}
@@ -194,6 +203,7 @@
               setTimeout(function () {
                 self.city = city
               },100)
+              this.loadMore()
             }
           }
         })
