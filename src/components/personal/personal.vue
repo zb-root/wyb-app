@@ -32,7 +32,7 @@
       </mt-cell>
     </div>
 
-    <div style="margin-top:0.5rem;" @click="openConfirm">
+    <div style="margin-top:0.5rem;" @click="openConfirm" v-if="islogin" >
       <mt-cell title="        退出登录" is-link >
         <img slot="icon" src="../../assets/personal/signout.png" width="24" height="24">
       </mt-cell>

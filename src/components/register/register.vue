@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i-header title="注册" leftNav="/app/login" rightNav="/" rightText="个人中心"></i-header>
+    <i-header title="注册" leftNav="/app/login" ></i-header>
     <div style="margin-top:2.5rem;padding:0 1rem;">
 
       <div class="itemdiv">
@@ -352,7 +352,7 @@
             if (response.data.ret === 0) {
               self.stateph = 'success'
             } else {
-              MessageBox('提示', '账号已存在！')
+              MessageBox('提示', '该手机号已被注册！')
               self.stateph = 'error'
             }
           }).catch(function (error) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i-header title="绑定新手机号" v-bind:leftNav="leftNav" rightNav="/" rightText="个人中心"></i-header>
+    <i-header title="绑定新手机号" v-bind:leftNav="leftNav"></i-header>
     <div class="form" style="margin-top:2.7rem;padding:0 1rem;position: relative;">
 
       <div style="box-sizing:border-box;position: relative;">
@@ -26,7 +26,7 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import header from '../header/header.vue'
-  import {Cell,Toast,Indicator } from 'mint-ui'
+  import {Cell,Toast,Indicator,MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
@@ -131,6 +131,28 @@
           self.settime()
         }, 1000)
       }
+    },
+    watch:{
+      newMobile (val, oldVal) {
+        let self = this
+        let reg = /^1[3|4|5|7|8][0-9]{9}$/
+        if (reg.test(val)) {
+          axios.get(global.user + '/users/' + val + '/exists')
+            .then(function (response) {
+              if (response.data.ret === 0) {
+                self.stateph = 'success'
+              } else {
+                MessageBox('提示', '该手机号已被注册！')
+                self.stateph = 'error'
+              }
+            }).catch(function (error) {
+            console.log(error)
+          })
+        } else {
+          self.stateph = 'error'
+        }
+        self.validate()
+      },
     },
     components:{
       'i-header': header

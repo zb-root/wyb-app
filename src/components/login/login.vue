@@ -1,6 +1,6 @@
 <template>
   <div class="lg">
-    <i-header title="登录" leftNav="/" rightNav="/" rightText="个人中心"></i-header>
+    <i-header title="登录" leftNav="/" ></i-header>
     <div class="form" style="margin-top:2rem;padding:0 1rem;">
       <div style="box-sizing:border-box;position: relative;">
         <img style="position: absolute;top:-3.2rem;left:0.8rem;width:1rem;"  src="../../assets/personal/phone.png" />
@@ -84,17 +84,28 @@
         let reg = /^1[3|4|5|7|8][0-9]{9}$/
         if(!reg.test(this.phone)) return Toast({message: '请输入正确的手机号码',position: 'bottom',duration: 1500});
         let url = global.passport + '/sms/'
-        axios.get(url + self.phone, {
-          params: {}
-        }).then(function (response) {
-          console.log(response.data)
-          if (response.data.Code === 'OK') {
-            Toast('发送成功')
-            self.settime()
-          } else {
-            Toast('发送失败')
-          }
-        }).catch(function (error) {
+        axios.get(global.user + '/users/' + self.phone + '/exists')
+          .then(function (response) {
+            if (response.data.ret === 0) {
+              MessageBox('提示', '该手机号尚未注册！')
+              self.stateph = 'error'
+            } else {
+              self.stateph = 'success'
+              axios.get(url + self.phone, {
+                params: {}
+              }).then(function (response) {
+                console.log(response.data)
+                if (response.data.Code === 'OK') {
+                  Toast('发送成功')
+                  self.settime()
+                } else {
+                  Toast('发送失败')
+                }
+              }).catch(function (error) {
+                console.log(error)
+              })
+            }
+          }).catch(function (error) {
           console.log(error)
         })
       },
