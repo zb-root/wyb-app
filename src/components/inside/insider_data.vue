@@ -48,12 +48,12 @@
         <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;">{{proText()}}{{typeText()}} <span style="color:red;">{{selNum}}</span> {{selName}}，在全国排名第 <span style="color:red;">{{selRank || ""}}</span> 名</p>
         <p style="text-align: right;font-size:0.9em;"><a @click="toActiveRank" style="text-decoration: underline;color:#4275D1;">当月活跃企业数排名</a></p>
         <div style="box-sizing: border-box;padding:0.8rem 0.5rem;text-align: center;background-color:#F7F7F7;height: 2.5rem;margin:0;margin-top:0.5rem;">
-          <span class="top" style="width:15%">排名</span>
-          <span class="top" style="width:25%">年份</span>
-          <span class="top" style="width:25%">省份</span>
-          <span class="top" style="width:30%">
+          <span class="top" style="width:16%">排名</span>
+          <span class="top" style="width:28%">年份</span>
+          <span class="top" style="width:28%">省份</span>
+          <span class="top" style="width:28%">
             {{typeText()}}
-            <img @click="getdata(1)" src="../../assets/inside/order.png" style="width: 6%;position: absolute;right: 1.5em;margin-top: -0.3em">
+            <img @click="getdata(1)" src="../../assets/inside/order.png" style="width: 4%;position: absolute;right: 1.2em;">
           </span>
         </div>
       </div>
@@ -303,7 +303,7 @@
           .then(function (response) {
             Indicator.close();
             let data = response.data || {}
-            console.info(self.alldata)
+//            console.info(self.alldata)
             if(param){
               console.info("a")
               if(self.alldata[self.alldata.length-1].count > self.alldata[0].count){
@@ -316,7 +316,7 @@
             }
             if(data.err) {
               self.isInsider = false
-            	return Toast(data.msg)
+//            	return Toast(data.msg)
             }
             data.rows.forEach(function (item,index) {
               self.itemlist.push(item)

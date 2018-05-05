@@ -65,7 +65,7 @@
         <li v-for="item in itemlist"  style="display: block" @click="detail(item._id)">
           <div>
             <div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>
-            <div style="min-height:10rem;padding:17px 13px 5px 13px;position:relative;">
+            <div style="min-height:9rem;padding:17px 13px 5px 13px;position:relative;">
               <!--<p style="font-size: 1.2em;color:#134498;width:80%;">-->
                 <!--<span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>&nbsp;-->
                 <!--<span v-html="handleSearchText(item.name)"></span>-->
@@ -73,11 +73,8 @@
 
               <div style="font-size:16px;color:#134498;position:relative;box-sizing:border-box;">
                 <!--<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">-->
-                <div style="display:inline-block;float:left;vertical-align:top;">
-                  <span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>
-                </div>
-                <div style="display:inline-block;float:left;width:75%;margin-left:1rem;">
-                  <span v-html="handleSearchText(item.name)"></span>
+                <div style="display:inline-block;float:left;width:75%;line-height: 25px">
+                  <span style="font-weight: bold">| </span>  <span v-html="handleSearchText(item.name)"></span>
                 </div>
               </div>
               <div style="clear:both;"></div>
@@ -89,24 +86,42 @@
               <ul style="margin-top:0.6rem">
                 <li class="productT" v-for="productType in item.operationModes" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
               </ul>
-              <div style="font-size:14px;margin-top:8px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem">
-                <img src="../../assets/png/company/crtime.png" style="width:1rem;height:1rem;position:absolute;top:0.27rem;left:0rem">
-                <span>登记时间：{{item.crtime | date}}</span>
-              </div>
-              <div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0px">
-                <img src="../../assets/png/company/address.png" style="width:0.9rem;height:1.05rem;position:absolute;top:0.25rem;left:0rem">
-                <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：
-                  <span v-html="handleSearchText(item.address)"></span>
+              <div style="font-size: 14px;color:#999;line-height: 20px;margin-top: 10px">
+                <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                  <img src="../../assets/png/company/crtime.png" style="width: 15px;position: relative;top: 0.2em;">
+                  <span>登记时间：{{item.crtime | date}}</span>
+                </p>
+                <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                  <img src="../../assets/png/company/address.png" style="width: 12px;position: relative;top: 0.2em;">
+                  <span>&nbsp;地址信息：{{handleSearchText(item.address)}}</span>
+                </p>
+                <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                  <img src="../../assets/png/company/chemical.png" style="width: 15px;position: relative;top: 0.2em;">
+                  经营化学品：<span v-html="handleChemical(item.chemicals)"></span>
                 </p>
               </div>
-              <div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-8px">
-                <img src="../../assets/png/company/chemical.png" style="width:1rem;height:1.1rem;position:absolute;top:0.25rem;left:0rem">
-                <p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">经营化学品：<span v-html="handleChemical(item.chemicals)"></span></p>
-              </div>
+              <!--<div style="font-size:14px;margin-top:8px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem">-->
+                <!--<img src="../../assets/png/company/crtime.png" style="width:1rem;height:1rem;position:absolute;top:0.27rem;left:0rem">-->
+                <!--<span>登记时间：{{item.crtime | date}}</span>-->
+              <!--</div>-->
+              <!--<div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0px">-->
+                <!--<img src="../../assets/png/company/address.png" style="width:0.9rem;height:1.05rem;position:absolute;top:0.25rem;left:0rem">-->
+                <!--<p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：-->
+                  <!--<span v-html="handleSearchText(item.address)"></span>-->
+                <!--</p>-->
+              <!--</div>-->
+              <!--<div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-8px">-->
+                <!--<img src="../../assets/png/company/chemical.png" style="width:1rem;height:1.1rem;position:absolute;top:0.25rem;left:0rem">-->
+                <!--<p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">经营化学品：<span v-html="handleChemical(item.chemicals)"></span></p>-->
+              <!--</div>-->
             </div>
           </div>
         </li>
       </ul>
+    </div>
+    <div v-if="itemlist">
+      <div style="background-color: #F7F7F7;width: 100%;height: 1em"></div>
+      <p style="text-align: center;margin: 1em 0 2em 0;color: #777777">更多下拉~~~</p>
     </div>
   </div>
 </template>
@@ -336,6 +351,7 @@
     },
     watch:{
     	province:function (val) {
+    	  this.search = ''
         let data = []
         cityList.forEach(function (item) {
           if(item.precode == val) data.push(item)
@@ -345,12 +361,15 @@
         this.getdata()
       },
       city:function () {
+        this.search = ''
         this.getdata()
       },
       product:function () {
+        this.search = ''
         this.getdata()
       },
       type:function () {
+        this.search = ''
         this.getdata()
       }
     },
