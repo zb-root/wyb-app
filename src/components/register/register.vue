@@ -246,11 +246,11 @@
       register: function () {
     		if(!this.idcard || !this.name || !this.province || !this.city || !this.phone || !this.code) return Toast({message: '请完善注册信息',position: 'bottom',duration: 1500});
         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        if(!reg.test(this.idcard)) return Toast({message: '身份证号不正确',position: 'bottom',duration: 1500});
+        if(!reg.test(this.idcard)) return Toast({message: '身份证号不正确',position: 'middle',duration: 1500});
 
 
         let regph = /^1[3|4|5|7|8][0-9]{9}$/
-        if(!regph.test(this.phone)) return Toast({message: '请输入正确的手机号码',position: 'bottom',duration: 1500});
+        if(!regph.test(this.phone)) return Toast({message: '请输入正确的手机号码',position: 'middle',duration: 1500});
 
         let self = this
         Indicator.open()
@@ -270,7 +270,7 @@
           .then(function (response) {
             if (response.data && response.data.err) {
               Indicator.close()
-              return Toast({message: response.data.msg,position: 'bottom',duration: 1500});
+              return Toast({message: response.data.msg,position: 'middle',duration: 1500});
             }
             axios.post(global.passport + '/register', obj)
               .then(function (response) {
@@ -294,7 +294,7 @@
                   Indicator.close()
                   Toast({
                     message: '注册失败',
-                    position: 'bottom'
+                    position: 'middle'
                   });
                 }
               }).catch(function (error) {
