@@ -52,7 +52,7 @@
           <p v-if="flowto.type === 4" class="title3">使用数量：{{flowto.amount}} {{flowto.unit}}</p>
           <p v-if="flowto.type === 5" class="title3">处置数量：{{flowto.amount}} {{flowto.unit}}</p>
           <p v-if="flowto.type === 6" class="title3">转让数量：{{flowto.amount}} {{flowto.unit}}</p>
-          <p v-if="flowto.type === 7" class="title3">丢失/被盗数量：{{flowto.amount}}{{flowto.unit}}</p>
+          <p v-if="flowto.type === 7" class="title3">丢失/被盗数量：{{flowto.amount}} {{flowto.unit}}</p>
 
           <p v-if="flowto.type === 1" class="title3">生产单位：{{flowto.company.name}}</p>
           <p v-if="flowto.type === 2" class="title3">销售单位：{{flowto.company.name}}</p>
