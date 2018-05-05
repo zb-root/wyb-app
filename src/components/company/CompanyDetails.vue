@@ -2,11 +2,11 @@
   <div>
     <i-header title="企业详情" leftNav="/app/company/list"></i-header>
     <div style="border-top:1px solid #ccc;padding:27px 13px 13px 13px;position:relative">
-      <p style="font-size: 18px;color:#134498;font-weight: bold">{{name}}</p>
-      <div style="position:absolute;top:1.7rem;right:1rem;">
+      <p style="font-size: 18px;color:#134498;font-weight: bold;width: 82%;line-height: 25px">{{name}}</p>
+      <div style="position:absolute;top:1.7rem;right:1rem;line-height: 30px">
         <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
       </div>
-      <ul style="margin-top:0.8rem">
+      <ul style="margin-top:0.8rem;">
         <li class="productT" v-for="productType in operationModes" style="display: inline-block;border:1px solid" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
       </ul>
       <div>
@@ -49,8 +49,8 @@
       </div>
       <div style="height:1px;background-color:#ddd;margin-top:0.6em"></div>
 
-      <div style="font-size:14px;color:#888;position:relative;padding-left:1.5rem;margin-top:0.6rem;">
-        <img src="../../assets/company/address.png" style="width:0.9rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">
+      <div style="font-size:14px;color:#888;position:relative;padding-left:1.5rem;margin-top:0.6rem;line-height: 20px">
+        <img src="../../assets/company/address.png" style="width:0.9rem;height:1rem;position:absolute;top:0.2rem;left:0rem">
         <p>地址信息：{{address}}</p>
       </div>
       <div style="font-size:14px;color:#888;line-height: 20px;position:relative;padding-left:1.5rem;margin-top:0.8rem;box-sizing:border-box;">

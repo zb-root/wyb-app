@@ -93,7 +93,7 @@
                 </p>
                 <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                   <img src="../../assets/png/company/address.png" style="width: 12px;position: relative;top: 0.2em;">
-                  <span>&nbsp;地址信息：{{handleSearchText(item.address)}}</span>
+                  &nbsp;地址信息：<span v-html="handleSearchText(item.address)"></span>
                 </p>
                 <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                   <img src="../../assets/png/company/chemical.png" style="width: 15px;position: relative;top: 0.2em;">
@@ -319,6 +319,12 @@
         this.page++
         let self = this
         self.loading = true
+        if(self.search){
+          self.province = ''
+          self.city = ''
+          self.product = ''
+          self.type = ''
+        }
         axios.get(global.company+'/infos',{
         	params:{
         		page:self.page,
@@ -351,7 +357,6 @@
     },
     watch:{
     	province:function (val) {
-    	  this.search = ''
         let data = []
         cityList.forEach(function (item) {
           if(item.precode == val) data.push(item)
@@ -361,15 +366,12 @@
         this.getdata()
       },
       city:function () {
-        this.search = ''
         this.getdata()
       },
       product:function () {
-        this.search = ''
         this.getdata()
       },
       type:function () {
-        this.search = ''
         this.getdata()
       }
     },
