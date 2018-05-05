@@ -303,7 +303,7 @@
           .then(function (response) {
             Indicator.close();
             let data = response.data || {}
-            console.info(self.alldata)
+//            console.info(self.alldata)
             if(param){
               console.info("a")
               if(self.alldata[self.alldata.length-1].count > self.alldata[0].count){
