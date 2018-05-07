@@ -45,7 +45,8 @@
       </div>
       <div style="clear:both;"></div>
       <div class="head" v-if="isInsider" style="padding:0 0.9rem;">
-        <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;">{{proText()}}{{typeText()}} <span style="color:red;">{{selNum}}</span> {{selName}}，在全国排名第 <span style="color:red;">{{selRank || ""}}</span> 名</p>
+        <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;" v-if="selRank">{{proText()}}{{typeText()}} <span style="color:red;">{{selNum}}</span> {{selName}}，在全国排名第 <span style="color:red;">{{selRank || ""}}</span> 名</p>
+        <p style="line-height:1.2rem;color:#aaa;font-size:0.9em;height:2.4rem;padding-top:0.5rem;" v-if="!selRank">暂时没有该项数据和排名</p>
         <p style="text-align: right;font-size:0.9em;"><a @click="toActiveRank" style="text-decoration: underline;color:#4275D1;">当月活跃企业数排名</a></p>
         <div style="box-sizing: border-box;padding:0.8rem 0.5rem;text-align: center;background-color:#F7F7F7;height: 2.5rem;margin:0;margin-top:0.5rem;">
           <span class="top" style="width:16%">排名</span>
@@ -66,7 +67,7 @@
         infinite-scroll-distance="10">
         <li v-for="(item,index) in itemlist"  style="display: block">
           <div class="body" style="box-sizing: border-box;height:2.4rem;line-height:2.4rem;text-align: center;border-bottom: 1px solid #EEEEEE;margin:0 1rem;" v-bind:class="{'signClass':index == selRank-1}">
-            <span class="top" style="width:18%">{{index+1}}</span>
+            <span class="top" style="width:18%">{{getIndex(index)}}</span>
             <span class="top" style="width:26%">{{item._id.date}}</span>
             <span class="top" style="width:26%">{{proText(item._id.province) || '无'}}</span>
             <span class="top" style="width:30%">{{item.count}}</span>
@@ -95,7 +96,7 @@
         isInsider:true,
         provinceText:'',
         selNum:0,
-        selRank:0,
+        selRank:"",
         selName:'家',
         itemlist:[],
         alldata: [],
@@ -160,6 +161,16 @@
             }
           }
         })
+      },
+      getIndex:function (index) {
+      	let rank = index+1
+      	for(let i=index;i>0;i++){
+      		if(this.itemlist[i-1].count == this.itemlist[index].count){
+      			rank = i+1
+            break
+          }
+        }
+        return rank
       },
     	toActiveRank:function () {
         this.$router.push('/app/active/rank')
@@ -265,7 +276,7 @@
         this.page = 0
         this.total = 0
         this.selNum = 0
-        this.selRank = 0
+        this.selRank = ""
         this.itemlist = []
         Indicator.open();
         this.loadMore(param)

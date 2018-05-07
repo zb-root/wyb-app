@@ -35,7 +35,7 @@
         infinite-scroll-distance="10">
         <li v-for="(item,index) in itemlist"  style="display: block">
           <div style="font-size:0.95em;box-sizing: border-box;height:2.4rem;line-height:2.4rem;text-align: center;border-bottom: 1px solid #EEEEEE;margin:0 1rem;">
-            <span class="top" style="width:12%">{{index+1}}</span>
+            <span class="top" style="width:12%">{{getIndex(index)}}</span>
             <span class="top" style="width:15%">{{item.year}}</span>
             <span class="top" style="width:21%">{{proText(item._id.province) || '无'}}</span>
             <span class="top" style="width:26%;" v-bind:class="{'rise':item.curCount > item.preCount}">
@@ -99,6 +99,16 @@
           }
         }
         return text
+      },
+      getIndex:function (index) {
+        let rank = index+1
+        for(let i=index;i>0;i++){
+          if(this.itemlist[i-1].curCount == this.itemlist[index].curCount){
+            rank = i+1
+            break
+          }
+        }
+        return rank
       },
       loadMore:function () {   //下拉加载更多的方法
         if(this.page >= this.total && this.page !=0 ) return;
