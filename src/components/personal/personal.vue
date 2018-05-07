@@ -62,15 +62,16 @@
         bgImg:require('../../assets/personal/not_login.jpg'),
         modImg:require('../../assets/personal/modImg.png'),         //修改手机号图标
         height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px',
-        avatarImage: '../../assets/personal/default_avatar.png'
+        avatarImage: '../../assets/personal/default_avatar.png',
+        args: {}
       }
     },
     mounted: function () {
-      this.isLogin()
+      this.authorization()
       this.getInsiderData()
       let self = this
-      var id = localStorage.getItem('id')
-      var token = localStorage.getItem('token')
+      let id = localStorage.getItem('id')
+      let token = localStorage.getItem('token')
       if(id){
         axios.get(global.user + '/users/'+id,{
         	params:{
@@ -101,11 +102,55 @@
       toPath:function () {
         this.$router.push('/app/updatePhone/'+this.info.phone)
       },
-      isLogin: function () {
+      authorization: function () {
+        let self = this
+        axios.get(global.wechat + '/authuri?url=' + global.apiHost + '/wyb/app/#/app/personal')
+          .then(function (res) {
+            if(res.data.err){
+              console.log(res.data.err)
+            }else{
+              console.info(res.data)
+              window.location = res.data.uri
+              self.getcode()
+            }
+          }).catch(function (error) {
+          console.info(error)
+        })
+      },
+      getcode:function () {
+        self.args = {} // 声明一个空对象
+        let query = q || window.location.search.substring(1) // 取查询字符串，如从 http://www.snowpeak.org/testjs.htm?a1=v1&a2=&a3=v3#anchor 中截出 a1=v1&a2=&a3=v3。
+        let pairs = query.split('&') // 以 & 符分开成数组
+        for (let i = 0; i < pairs.length; i++) {
+          let pos = pairs[i].indexOf('=') // 查找 "name=value" 对
+          if (pos === -1) continue // 若不成对，则跳出循环继续下一对
+          let argname = pairs[i].substring(0, pos) // 取参数名
+          let value = pairs[i].substring(pos + 1) // 取参数值
+          value = decodeURIComponent(value) // 若需要，则解码
+          self.args[argname] = value // 存成对象的一个属性
+        }
+        //··················openid如何获得？？？？？？？？？？？？？？？
+        let params = {}
+        if(self.args.code){
+          params = {
+            mobile: self.info.phone,
+            code: self.args.code
+          }
+          self.login(params)
+        }else{
+          params = {
+            mobile: self.info.phone,
+            openid: '111'
+        }
+          self.login(params)
+        }
+        return args // 返回此对象
+      },
+      login: function (param) {
         let self = this
         let id = localStorage.getItem('id')
         let token = localStorage.getItem('token')
-        axios.get(global.sso + '/user?token=' + token)
+        axios.post(global.passport + '/wechat/login',param)
           .then(function (res) {
             if (res.data.err) {
               self.islogin = false
@@ -119,15 +164,16 @@
         })
       },
       getInsiderData:function () {
-    		console.log(123)
         let self = this
         let id = localStorage.getItem('id')
         let token = localStorage.getItem('token')
+        self.avatarImage = global.avatarsrc + '/avatar/' + id + '.img?' + Date.parse(new Date()) / 1000
         axios.get(global.insider + '/info?token=' + token+'&uid='+id)
           .then(function (res) {
             if (res.data.err) {
               console.log(res.data.err)
             } else {
+              console.info(res.data)
             	self.isInsider = true
               self.info.department = res.data.department
             }

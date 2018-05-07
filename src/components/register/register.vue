@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i-header title="注册" leftNav="/app/login" ></i-header>
+    <i-header title="实名认证" leftNav="/app/login" ></i-header>
     <div style="margin-top:2.5rem;padding:0 1rem;">
 
       <div class="itemdiv">

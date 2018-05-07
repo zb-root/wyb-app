@@ -46,11 +46,11 @@ export default new Router({
         }
       ]
     },
-    {
-      path: '/app/login',
-      name: 'login',
-      component: login
-    },
+    // {
+    //   path: '/app/login',
+    //   name: 'login',
+    //   component: login
+    // },
     {
       path: '/app/register',
       name: 'register',
