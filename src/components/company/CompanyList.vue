@@ -1,7 +1,14 @@
 <template>
-  <div>
+  <div v-bind:style="{height:height}" v-bind:class="{'mengban':noPremission}">
     <!--<i-header title="企业搜索"></i-header>-->
-    <div style="position:fixed;width:100%;background-color:white !important;z-index:100;top:0rem;">
+    <div style="position:absolute;top:30%;padding:0 1rem;width:100%;text-align: center;box-sizing: border-box;height:15rem;" v-if="noPremission">
+      <p style="line-height:2.5rem;height:2.5rem;background-color:#1A4B9C;color:white;font-size:1.1em;">温馨提示</p>
+      <div style="background:white;padding-bottom: 2rem;">
+        <img src="../../assets/inside/nopermission.png" style="width:1.5rem;margin-top:2rem;"/>
+        <p style="line-height:2rem;height:2rem;color:#4275D1;margin-top:0.5rem;font-size:1.05em;font-weight: 600">您不是实名认证用户没有权限使用企业查询</p>
+      </div>
+    </div>
+    <div style="position:fixed;width:100%;background-color:white !important;z-index:100;top:0rem;" v-if="isValidate">
       <div style="position:relative;padding:1rem 1rem;background-color:#1A4B9C;">
         <div>
           <input type="text" v-model="search" style="box-sizing:border-box; width:100%;height:2.5rem;font-size:15px;padding:0 1rem;" placeholder="搜索企业信息"/>
@@ -57,7 +64,7 @@
       <p style="line-height: 3rem;color:#aaa;font-size:0.85em;padding-left:1em;">检索到 <span style="color:red;">{{total}}</span> 家企业</p>
     </div>
 
-    <div style="width:100%;margin-top:10.5rem;">
+    <div style="width:100%;margin-top:10.5rem;" v-if="isValidate">
       <ul
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
@@ -119,7 +126,7 @@
         </li>
       </ul>
     </div>
-    <div v-if="itemlist">
+    <div v-if="itemlist" v-if="isValidate">
       <div style="background-color: #F7F7F7;width: 100%;height: 1em"></div>
       <p style="text-align: center;margin: 1em 0 2em 0;color: #777777">更多下拉~~~</p>
     </div>
@@ -145,23 +152,62 @@
         proList:[],   //产品列表
         page:0,
         rows:10,
+        isValidate:false,
+        noPremission:false,
         loading:false,
         total:0,
         search:'',
         provinceList:provinceList,
         cityList:[],
         selImg:require('../../assets/jpg/sel_bg.jpg'),
-        downImg:require('../../assets/png/down.png')
+        downImg:require('../../assets/png/down.png'),
+        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px'
       }
     },
     mounted: function () {
-    	this.initConfig()
-      this.getProduct()
+      this.getUserInfo()
     },
     methods: {
+      getUserInfo:function () {
+        let self = this
+        var id = localStorage.getItem('id')
+        var token = localStorage.getItem('token')
+        if(id){
+          axios.get(global.user + '/users/'+id,{
+            params:{
+              token:token
+            }
+          })
+            .then(function (response) {
+              if(response.data.err){
+                self.noPremission = true
+                return Toast({
+                  message: '获取用户信息失败',
+                  position: 'bottom',
+                  duration: 1000
+                });
+              }
+              let data = response.data || {}
+              if(data.idcard){
+                self.isValidate = true
+                self.initConfig()
+                self.getProduct()
+              }else{
+                self.noPremission = true
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }else{
+          self.login()
+        }
+      },
       initConfig:function () {
       	let self = this
         let url = location.href.split('#')[0]
+        url = encodeURIComponent(url)      //不encode的话如果url带有&签名会有问题
+//        alert(url)
         axios.get(global.wechat+'/api/jsconfig?url='+url,{})
           .then(function (res) {
             let data = res.data || {}
@@ -217,8 +263,8 @@
               self.province = province
               setTimeout(function () {
                 self.city = city
-              },100)
-              this.loadMore()
+              },300)
+//              this.loadMore()
             }
           }
         })
@@ -319,6 +365,7 @@
         this.page++
         let self = this
         self.loading = true
+        let token = localStorage.getItem('token')
         if(self.search){
           self.province = ''
           self.city = ''
@@ -327,6 +374,7 @@
         }
         axios.get(global.company+'/infos',{
         	params:{
+        		token:token,
         		page:self.page,
             rows:self.rows,
             search:self.search,
@@ -339,9 +387,13 @@
           .then(function (response) {
             Indicator.close();
             let data = response.data || {}
-            data.rows.forEach(function (item) {
-              self.itemlist.push(item)
-            })
+            if(data.err) return;
+//            data.rows = data.rows || []
+            if(data.rows && data.rows.length > 0){
+              data.rows.forEach(function (item) {
+                self.itemlist.push(item)
+              })
+            }
             self.loading = false
             self.total = data.total
           })

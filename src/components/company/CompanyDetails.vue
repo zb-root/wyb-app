@@ -94,9 +94,10 @@
     methods: {
       getdata:function () {        //模糊搜索
         let self = this
+        let token = localStorage.getItem('token')
         axios.get(global.company+'/infos/'+self.id,{
           params:{
-
+          	token:token
           }
         })
           .then(function (response) {

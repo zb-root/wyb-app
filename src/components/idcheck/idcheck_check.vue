@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <div style="position:relative;padding:1rem 1rem;background-color:#1A4B9C;">
+  <div v-bind:style="{height:height}" v-bind:class="{'mengban':noPremission}">
+    <div style="position:absolute;top:30%;padding:0 1rem;width:100%;text-align: center;box-sizing: border-box;height:15rem;" v-if="noPremission">
+      <p style="line-height:2.5rem;height:2.5rem;background-color:#1A4B9C;color:white;font-size:1.1em;">温馨提示</p>
+      <div style="background:white;padding-bottom: 2rem;">
+        <img src="../../assets/inside/nopermission.png" style="width:1.5rem;margin-top:2rem;"/>
+        <p style="line-height:2rem;height:2rem;color:#4275D1;margin-top:0.5rem;font-size:1.05em;font-weight: 600">您不是实名认证用户没有权限使用标识校验</p>
+      </div>
+    </div>
+    <div style="position:relative;padding:1rem 1rem;background-color:#1A4B9C;" v-if="isValidate">
       <div>
         <input type="text" v-model="search" style="box-sizing:border-box; width:100%;height:2.5rem;font-size:15px;padding:0 2.5rem 0 2.5rem;" placeholder="根据标识搜索"/>
         <span></span>
@@ -19,7 +26,7 @@
       <!--</mt-popup>-->
     </div>
 
-    <div id="nodata" style="display: none">
+    <div id="nodata" style="display: none" v-if="isValidate">
       <p style="text-align: center;margin-top: 60%">没有检索到匹配的标识！</p>
     </div>
     <div id="content" style="margin: 1em 0.3em 0.3em 0.3em;display: none">
@@ -93,6 +100,8 @@
         popupVisible: false,
         ids: [],
         detail: {},
+        isValidate:false,
+        noPremission:false,
         company: '',
         storageInfo: '',
         available: '',
@@ -100,15 +109,51 @@
         ownership: '',
         state: '',
         flowtos: {},
-        daterange: ''
+        daterange: '',
+        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px'
       }
     },
     mounted: function () {
-    	this.initConfig()
+    	this.getUserInfo()
     },
     methods: {
+      getUserInfo:function () {
+        let self = this
+        var id = localStorage.getItem('id')
+        var token = localStorage.getItem('token')
+        if(id){
+          axios.get(global.user + '/users/'+id,{
+            params:{
+              token:token
+            }
+          })
+            .then(function (response) {
+              if(response.data.err){
+                self.noPremission = true
+                return Toast({
+                  message: '获取用户信息失败',
+                  position: 'bottom',
+                  duration: 1000
+                });
+              }
+              let data = response.data || {}
+              if(data.idcard){
+                self.isValidate = true
+                self.initConfig()
+              }else{
+                self.noPremission = true
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }else{
+          self.login()
+        }
+      },
       initConfig:function () {
         let url = location.href.split('#')[0]
+        url = encodeURIComponent(url)      //不encode的话如果url带有&签名会有问题
         axios.get(global.wechat+'/api/jsconfig?url='+url,{})
           .then(function (res) {
             console.log(res.data)

@@ -110,12 +110,14 @@
     },
     mounted: function () {
       this.loadMore()
-      this.initConfig()
+      let self = this
+      self.initConfig()
     },
     methods: {
       initConfig:function () {
         let self = this
         let url = location.href.split('#')[0]
+        url = encodeURIComponent(url)      //不encode的话如果url带有&签名会有问题
         axios.get(global.wechat+'/api/jsconfig?url='+url,{})
           .then(function (res) {
             let data = res.data || {}
@@ -143,7 +145,8 @@
             })
             wx.error(function(res){
               // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-              alert(res)
+              self.province = '10'
+//              alert('')
             });
           })
       },
@@ -164,10 +167,9 @@
       },
       getIndex:function (index) {
       	let rank = index+1
-      	for(let i=index;i>0;i++){
-      		if(this.itemlist[i-1].count == this.itemlist[index].count){
+      	for(let i=index-1;i>0;i--){
+      		if(this.itemlist[i].count == this.itemlist[index].count){
       			rank = i+1
-            break
           }
         }
         return rank
@@ -314,6 +316,11 @@
           .then(function (response) {
             Indicator.close();
             let data = response.data || {}
+            if(data.err) {
+              self.isInsider = false
+              if(data.err) return;
+//            	return Toast(data.msg)
+            }
 //            console.info(self.alldata)
             if(param){
               console.info("a")
@@ -324,10 +331,6 @@
               }
             }else{
               data.rows = response.data.rows
-            }
-            if(data.err) {
-              self.isInsider = false
-//            	return Toast(data.msg)
             }
             data.rows.forEach(function (item,index) {
               self.itemlist.push(item)

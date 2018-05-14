@@ -26,6 +26,7 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name:'欢迎',
       redirect: '/app/personal'
     },
     {
@@ -69,6 +70,9 @@ export default new Router({
     {
       path: '/app/company/list',     //企业列表
       name: 'companylist',
+      meta:{
+        requireAuth:true
+      },
       component: companylist
     },
     {
@@ -79,6 +83,9 @@ export default new Router({
     {
       path: '/app/insider/data',    //内部数据
       name: 'insiderdata',
+      meta:{
+        requireAuth:true
+      },
       component: insiderdata
     },
     {
@@ -89,6 +96,9 @@ export default new Router({
     {
       path: '/app/idcheck/check',       //标识校验
       name: 'idcheck',
+      meta:{
+        requireAuth:true
+      },
       component: idcheck
     }
   ]

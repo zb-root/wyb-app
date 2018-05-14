@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i-header title="注册" leftNav="/app/login" ></i-header>
+    <i-header title="实名认证" leftNav="/app/personal" ></i-header>
     <div style="margin-top:2.5rem;padding:0 1rem;">
 
       <div class="itemdiv">
@@ -31,7 +31,7 @@
       </div>
 
       <div style="text-align: center;margin-top:2.5rem">
-        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="register">注册</mt-button>
+        <mt-button style="background-color:#1A4B9C;color:white;width:100%;border-radius:0.3rem;height:3rem;" v-on:click="register">开始认证</mt-button>
       </div>
     </div>
 
@@ -272,35 +272,56 @@
               Indicator.close()
               return Toast({message: response.data.msg,position: 'middle',duration: 1500});
             }
-            axios.post(global.passport + '/register', obj)
+
+            let id = localStorage.getItem('id')
+            let token = localStorage.getItem('token')
+            obj.token = token
+            axios.post(global.user+'/users/'+id,obj)
               .then(function (response) {
-              	console.log(response.data,22)
                 Indicator.close()
-                if (response.data.id) {
-                  axios.post(global.passport + '/login/mobile', {
-                    mobile: self.phone,
-                    code: self.code
-                  }).then(function (response) {
-                  	console.log(response.data,88)
-                    if (response.data.token) {
-                      localStorage.setItem('token', response.data.token)
-                      localStorage.setItem('id', response.data.id)
-                      self.$router.push('/app/personal')
-                    }
-                  }).catch(function (error) {
-                    console.log(error)
-                  })
-                }else{
-                  Indicator.close()
-                  Toast({
-                    message: '注册失败',
-                    position: 'middle'
-                  });
+                if (response.data && response.data.err) {
+                  return Toast({message: response.data.msg,position: 'bottom',duration: 1500});
                 }
-              }).catch(function (error) {
-              Indicator.close()
-              console.log(error)
-            })
+                Toast({message: '认证成功',position: 'middle',duration: 1000});
+                setTimeout(function () {
+                  self.$router.push('/')
+                },1000)
+              })
+              .catch(function (error) {
+                Indicator.close()
+                Toast({message: '认证失败',position: 'bottom',duration: 1000});
+                console.log(error)
+              })
+
+//            axios.post(global.passport + '/register', obj)
+//              .then(function (response) {
+//              	console.log(response.data,22)
+//                Indicator.close()
+//                if (response.data.id) {
+//                  axios.post(global.passport + '/login/mobile', {
+//                    mobile: self.phone,
+//                    code: self.code
+//                  }).then(function (response) {
+//                  	console.log(response.data,88)
+//                    if (response.data.token) {
+//                      localStorage.setItem('token', response.data.token)
+//                      localStorage.setItem('id', response.data.id)
+//                      self.$router.push('/app/personal')
+//                    }
+//                  }).catch(function (error) {
+//                    console.log(error)
+//                  })
+//                }else{
+//                  Indicator.close()
+//                  Toast({
+//                    message: '注册失败',
+//                    position: 'middle'
+//                  });
+//                }
+//              }).catch(function (error) {
+//              Indicator.close()
+//              console.log(error)
+//            })
           })
           .catch(function (error) {
             console.log(error)
