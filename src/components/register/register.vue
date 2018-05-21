@@ -102,6 +102,7 @@
       initConfig:function () {
         let self = this
         let url = location.href.split('#')[0]
+        url = encodeURIComponent(url)      //不encode的话如果url带有&签名会有问题
         axios.get(global.wechat+'/api/jsconfig?url='+url,{})
           .then(function (res) {
             let data = res.data || {}

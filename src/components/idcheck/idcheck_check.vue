@@ -156,7 +156,6 @@
         url = encodeURIComponent(url)      //不encode的话如果url带有&签名会有问题
         axios.get(global.wechat+'/api/jsconfig?url='+url,{})
           .then(function (res) {
-            console.log(res.data)
             let data = res.data || {}
             wx.config({
               debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -220,8 +219,12 @@
         this.code = param
         let self = this
         //标识基本信息
+        let token = localStorage.getItem('token')
         Indicator.open({spinnerType: 'fading-circle'})
         axios.get(global.company+'/signInfo?id='+param,{
+        	params:{
+        		token:token
+          }
         })
           .then(function (response) {
             self.detail = response.data || {}
@@ -279,6 +282,9 @@
           })
         //流向信息
         axios.get(global.company+'/tracks?signCode='+param,{
+        	params:{
+        		token:token
+          }
         })
           .then(function (response) {
             self.flowtos = response.data.rows || {}

@@ -14,7 +14,7 @@
           <input type="text" v-model="search" style="box-sizing:border-box; width:100%;height:2.5rem;font-size:15px;padding:0 1rem;" placeholder="搜索企业信息"/>
           <span></span>
         </div>
-        <div style="position:absolute;top:1.1rem;right:1.5rem;" @click="getdata">
+        <div style="position:absolute;top:1.1rem;right:1.5rem;" @click="getdata(0)">
           <img src="../../assets/png/search.png" height="36px" width="36px" slot="icon">
         </div>
       </div>
@@ -66,17 +66,16 @@
 
     <div style="width:100%;margin-top:10.5rem;" v-if="isValidate">
       <ul
+        ref="loadmore"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10">
+        infinite-scroll-distance="10"
+        autoFill="false"
+        topLoadingText="加载中">
         <li v-for="item in itemlist"  style="display: block" @click="detail(item._id)">
           <div>
             <div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>
             <div style="min-height:9rem;padding:17px 13px 5px 13px;position:relative;">
-              <!--<p style="font-size: 1.2em;color:#134498;width:80%;">-->
-                <!--<span style="display:inline-block;width:0.2rem;height:1rem;background-color:#134498;"></span>&nbsp;-->
-                <!--<span v-html="handleSearchText(item.name)"></span>-->
-              <!--</p>-->
 
               <div style="font-size:16px;color:#134498;position:relative;box-sizing:border-box;">
                 <!--<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">-->
@@ -107,26 +106,12 @@
                   经营化学品：<span v-html="handleChemical(item.chemicals)"></span>
                 </p>
               </div>
-              <!--<div style="font-size:14px;margin-top:8px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem">-->
-                <!--<img src="../../assets/png/company/crtime.png" style="width:1rem;height:1rem;position:absolute;top:0.27rem;left:0rem">-->
-                <!--<span>登记时间：{{item.crtime | date}}</span>-->
-              <!--</div>-->
-              <!--<div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:0px">-->
-                <!--<img src="../../assets/png/company/address.png" style="width:0.9rem;height:1.05rem;position:absolute;top:0.25rem;left:0rem">-->
-                <!--<p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">地址信息：-->
-                  <!--<span v-html="handleSearchText(item.address)"></span>-->
-                <!--</p>-->
-              <!--</div>-->
-              <!--<div style="font-size:14px;color:#999;position:relative;padding-left:1.5rem;line-height: 1.7rem;margin-top:-8px">-->
-                <!--<img src="../../assets/png/company/chemical.png" style="width:1rem;height:1.1rem;position:absolute;top:0.25rem;left:0rem">-->
-                <!--<p style="display:inline-block;width:90%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">经营化学品：<span v-html="handleChemical(item.chemicals)"></span></p>-->
-              <!--</div>-->
             </div>
           </div>
         </li>
       </ul>
     </div>
-    <div v-if="itemlist" v-if="isValidate">
+    <div v-if="itemlist && isValidate">
       <div style="background-color: #F7F7F7;width: 100%;height: 1em"></div>
       <p style="text-align: center;margin: 1em 0 2em 0;color: #777777">更多下拉~~~</p>
     </div>
@@ -157,11 +142,13 @@
         loading:false,
         total:0,
         search:'',
+        getType:1,         // 0：模糊搜索  1：选项搜索
         provinceList:provinceList,
         cityList:[],
         selImg:require('../../assets/jpg/sel_bg.jpg'),
         downImg:require('../../assets/png/down.png'),
-        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px'
+        height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px',
+        isFirst:true          //第一次进入province时不getdata
       }
     },
     mounted: function () {
@@ -269,10 +256,11 @@
           }
         })
       },
-      getdata:function () {        //模糊搜索
+      getdata:function (type) {        //模糊搜索
         this.page = 0;
         this.total = 0;
         this.itemlist = []
+        this.getType = type
         this.loadMore()
       },
       handleColor:function (type) {   //处理小标签字体颜色
@@ -324,7 +312,6 @@
           let data = []
           chemicals.forEach(function (item) {           //这里主要是把包含关键字的化学药品放前面，用以标红
             if(reg.test(item)){
-//            	console.log(1,item)
             	data.unshift(item)
 //              console.log(data)
             }else{
@@ -359,30 +346,28 @@
             console.log(error)
           })
       },
-      loadMore:function () {   //下拉加载更多的方法
+      loadMore:function (type) {   //下拉加载更多的方法
         if(this.page >= this.total && this.page !=0 ) return;
         Indicator.open();
         this.page++
         let self = this
         self.loading = true
         let token = localStorage.getItem('token')
-        if(self.search){
-          self.province = ''
-          self.city = ''
-          self.product = ''
-          self.type = ''
+
+        let data = {}
+        if(this.getType){
+          data.province = self.province
+          data.city = self.city
+          data.products = self.product
+          data.types = self.type
+        }else{
+          data.search = self.search
         }
+        data.token = token
+        data.page = self.page
+        data.rows = self.rows
         axios.get(global.company+'/infos',{
-        	params:{
-        		token:token,
-        		page:self.page,
-            rows:self.rows,
-            search:self.search,
-            products:self.product,
-            types:self.type,
-            province:self.province,
-            city:self.city
-          }
+        	params:data
         })
           .then(function (response) {
             Indicator.close();
@@ -415,16 +400,20 @@
         })
         this.cityList = data
         this.city = ""
-        this.getdata()
+        if(this.isFirst) {        //减少初次进入时请求次数, province不请求，city时请求
+          this.isFirst = false
+        	return;
+        }
+        this.getdata(1)
       },
       city:function () {
-        this.getdata()
+        this.getdata(1)
       },
       product:function () {
-        this.getdata()
+        this.getdata(1)
       },
       type:function () {
-        this.getdata()
+        this.getdata(1)
       }
     },
     filters:{

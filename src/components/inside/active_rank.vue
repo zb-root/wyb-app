@@ -38,9 +38,9 @@
             <span class="top" style="width:12%">{{getIndex(index)}}</span>
             <span class="top" style="width:15%">{{item.year}}</span>
             <span class="top" style="width:21%">{{proText(item._id.province) || '无'}}</span>
-            <span class="top" style="width:26%;" v-bind:class="{'rise':item.curCount > item.preCount}">
+            <span class="top" style="width:26%;position:relative;" v-bind:class="{'rise':item.curCount > item.preCount}">
               {{item.curCount}}
-              <img v-if="item.curCount > item.preCount" src="../../assets/inside/rise.png" style="position: relative; width: 25%;top:5px"/>
+              <img v-if="item.curCount > item.preCount" src="../../assets/inside/rise.png" style="position: absolute; width: 0.65rem;height:1.6rem;top:0.4rem;right:1rem"/>
             </span>
             <span class="top" style="width:26%">{{item.preCount}}</span>
           </div>
@@ -116,7 +116,6 @@
         let self = this
         self.loading = true
         let token = localStorage.getItem('token')
-        console.log(token,33)
         axios.get(global.company+'/activeRanking',{
           params:{
             page:this.page,
