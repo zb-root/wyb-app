@@ -40,7 +40,7 @@
             <span class="top" style="width:21%">{{proText(item._id.province) || '无'}}</span>
             <span class="top" style="width:26%;position:relative;" v-bind:class="{'rise':item.curCount > item.preCount}">
               {{item.curCount}}
-              <img v-if="item.curCount > item.preCount" src="../../assets/inside/rise.png" style="position: absolute; width: 0.65rem;height:1.6rem;top:0.4rem;right:1rem"/>
+              <img v-if="item.curCount > item.preCount" src="../../assets/inside/rise.png" style="position: absolute; width: 0.75rem;height:1.35rem;top:0.49rem;padding-left:0.15rem"/>
             </span>
             <span class="top" style="width:26%">{{item.preCount}}</span>
           </div>
@@ -100,12 +100,21 @@
         }
         return text
       },
+//      getIndex:function (index) {
+//        let rank = index+1
+//        for(let i=index;i>0;i++){
+//          if(this.itemlist[i-1].curCount == this.itemlist[index].curCount){
+//            rank = i+1
+//            break
+//          }
+//        }
+//        return rank
+//      },
       getIndex:function (index) {
         let rank = index+1
-        for(let i=index;i>0;i++){
-          if(this.itemlist[i-1].curCount == this.itemlist[index].curCount){
+        for(let i=index-1;i>0;i--){
+          if(this.itemlist[i].curCount == this.itemlist[index].curCount){
             rank = i+1
-            break
           }
         }
         return rank

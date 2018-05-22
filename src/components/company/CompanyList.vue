@@ -306,7 +306,7 @@
       handleChemical:function (chemicals) {
         chemicals = chemicals || []
         let sign = this.product || this.search
-        if(sign && chemicals.length){
+        if(sign && chemicals.length && !this.getType){
           let reg = new RegExp(".*"+sign+'.*');
 
           let data = []
