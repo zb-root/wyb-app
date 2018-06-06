@@ -64,56 +64,110 @@
       <p style="line-height: 3rem;color:#aaa;font-size:0.85em;padding-left:1em;">检索到 <span style="color:red;">{{total}}</span> 家企业</p>
     </div>
 
-    <div style="width:100%;margin-top:10.5rem;" v-if="isValidate">
-      <ul
-        ref="loadmore"
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10"
-        autoFill="false"
-        topLoadingText="加载中">
-        <li v-for="item in itemlist"  style="display: block" @click="detail(item._id)">
-          <div>
-            <div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>
-            <div style="min-height:9rem;padding:17px 13px 5px 13px;position:relative;">
+    <!--<div style="width:100%;margin-top:10.5rem;" v-if="isValidate">-->
+      <!--<ul-->
+        <!--ref="loadmore"-->
+        <!--v-infinite-scroll="loadMore"-->
+        <!--infinite-scroll-disabled="loading"-->
+        <!--infinite-scroll-distance="10"-->
+        <!--autoFill="false"-->
+        <!--topLoadingText="加载中">-->
+        <!--<li v-for="item in itemlist"  style="display: block" @click="detail(item._id)">-->
+          <!--<div>-->
+            <!--<div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>-->
+            <!--<div style="min-height:9rem;padding:17px 13px 5px 13px;position:relative;">-->
 
-              <div style="font-size:16px;color:#134498;position:relative;box-sizing:border-box;">
-                <!--<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">-->
-                <div style="display:inline-block;float:left;width:75%;line-height: 25px">
-                  <span style="font-weight: bold">| </span>  <span v-html="handleSearchText(item.name)"></span>
+              <!--<div style="font-size:16px;color:#134498;position:relative;box-sizing:border-box;">-->
+                <!--&lt;!&ndash;<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">&ndash;&gt;-->
+                <!--<div style="display:inline-block;float:left;width:75%;line-height: 25px">-->
+                  <!--<span style="font-weight: bold">| </span>  <span v-html="handleSearchText(item.name)"></span>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div style="clear:both;"></div>-->
+
+              <!--<div style="border-top:1px solid #DDD;margin-top:0.6rem"></div>-->
+              <!--<div style="position:absolute;top:1rem;right:1rem;">-->
+                <!--<img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />-->
+              <!--</div>-->
+              <!--<ul style="margin-top:0.6rem">-->
+                <!--<li class="productT" v-for="productType in item.operationModes" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>-->
+              <!--</ul>-->
+              <!--<div style="font-size: 14px;color:#999;line-height: 20px;margin-top: 10px">-->
+                <!--<p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">-->
+                  <!--<img src="../../assets/png/company/crtime.png" style="width: 15px;position: relative;top: 0.2em;">-->
+                  <!--<span>登记时间：{{item.crtime | date}}</span>-->
+                <!--</p>-->
+                <!--<p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">-->
+                  <!--<img src="../../assets/png/company/address.png" style="width: 12px;position: relative;top: 0.2em;">-->
+                  <!--&nbsp;地址信息：<span v-html="handleSearchText(item.address)"></span>-->
+                <!--</p>-->
+                <!--<p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">-->
+                  <!--<img src="../../assets/png/company/chemical.png" style="width: 15px;position: relative;top: 0.2em;">-->
+                  <!--经营化学品：<span v-html="handleChemical(item.chemicals)"></span>-->
+                <!--</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <div style="width:100%;padding-top:10.5rem;" v-if="isValidate">
+      <v-loadmore
+        :bottom-method="loadBottom"
+        :bottom-all-loaded="allLoaded"
+        :bottomPullText='bottomPullTextVal'
+        :bottomDropText='bottomDropTextVal'
+        :bottomLoadingText='bottomLoadingTextVal'
+        :autoFill="false"
+        ref="loadmore">
+        <ul>
+          <li v-for="(item,index) in itemlist"  style="display: block" @click="detail(item._id)">
+            <div>
+              <div style="width:100%;height:0.8rem;background-color:#F7F7F7;"></div>
+              <div style="min-height:9rem;padding:17px 13px 5px 13px;position:relative;">
+
+                <div style="font-size:16px;color:#134498;position:relative;box-sizing:border-box;">
+                  <!--<img src="../../assets/company/chemical.png" style="width:1rem;height:1rem;position:absolute;top:-0.1rem;left:0rem">-->
+                  <div style="display:inline-block;float:left;width:75%;line-height: 25px">
+                    <span style="font-weight: bold">| </span>  <span v-html="handleSearchText(item.name)"></span>
+                  </div>
+                </div>
+                <div style="clear:both;"></div>
+
+                <div style="border-top:1px solid #DDD;margin-top:0.6rem"></div>
+                <div style="position:absolute;top:1rem;right:1rem;">
+                  <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
+                </div>
+                <ul style="margin-top:0.6rem">
+                  <li class="productT" v-for="productType in item.operationModes" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
+                </ul>
+                <div style="font-size: 14px;color:#999;line-height: 20px;margin-top: 10px">
+                  <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                    <img src="../../assets/png/company/crtime.png" style="width: 15px;position: relative;top: 0.2em;">
+                    <span>登记时间：{{item.crtime | date}}</span>
+                  </p>
+                  <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                    <img src="../../assets/png/company/address.png" style="width: 12px;position: relative;top: 0.2em;">
+                    &nbsp;地址信息：<span v-html="handleSearchText(item.address)"></span>
+                  </p>
+                  <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                    <img src="../../assets/png/company/chemical.png" style="width: 15px;position: relative;top: 0.2em;">
+                    经营化学品：<span v-html="handleChemical(item.chemicals)"></span>
+                  </p>
                 </div>
               </div>
-              <div style="clear:both;"></div>
-
-              <div style="border-top:1px solid #DDD;margin-top:0.6rem"></div>
-              <div style="position:absolute;top:1rem;right:1rem;">
-                <img style="width:3.5rem;height:1.2rem;" src="../../assets/png/renzhen.png" />
+              <div v-if="page < pages && index == itemlist.length - 1">
+                <div style="background-color: #F7F7F7;width: 100%;height: 1em"></div>
+                <p style="text-align: center;margin: 1em 0 1em 0;color: #777777">更多上拉~~~</p>
               </div>
-              <ul style="margin-top:0.6rem">
-                <li class="productT" v-for="productType in item.operationModes" v-bind:style="{'color':handleColor(productType),'border-color':handleColor(productType)}">{{productType}}</li>
-              </ul>
-              <div style="font-size: 14px;color:#999;line-height: 20px;margin-top: 10px">
-                <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
-                  <img src="../../assets/png/company/crtime.png" style="width: 15px;position: relative;top: 0.2em;">
-                  <span>登记时间：{{item.crtime | date}}</span>
-                </p>
-                <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
-                  <img src="../../assets/png/company/address.png" style="width: 12px;position: relative;top: 0.2em;">
-                  &nbsp;地址信息：<span v-html="handleSearchText(item.address)"></span>
-                </p>
-                <p style="display:inline-block;width:95%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
-                  <img src="../../assets/png/company/chemical.png" style="width: 15px;position: relative;top: 0.2em;">
-                  经营化学品：<span v-html="handleChemical(item.chemicals)"></span>
-                </p>
+              <div v-if="page == pages && index == itemlist.length - 1">
+                <div style="background-color: #F7F7F7;width: 100%;height: 1em"></div>
+                <p style="text-align: center;margin: 1em 0 1em 0;color: #777777">数据已加载完毕</p>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div v-if="itemlist && isValidate">
-      <div style="background-color: #F7F7F7;width: 100%;height: 1em"></div>
-      <p style="text-align: center;margin: 1em 0 2em 0;color: #777777">更多下拉~~~</p>
+          </li>
+        </ul>
+      </v-loadmore>
     </div>
   </div>
 </template>
@@ -121,7 +175,7 @@
 <script type="text/ecmascript-6">
   import axios from 'axios'
   import header from '../header/header.vue'
-  import {Search,Toast,Indicator} from 'mint-ui'
+  import {Search,Toast,Indicator,Loadmore} from 'mint-ui'
   import provinceList from '../../../static/json/province.json'
   import cityList from '../../../static/json/city.json'
   import wx from 'weixin-js-sdk'
@@ -136,11 +190,12 @@
         itemlist:[],
         proList:[],   //产品列表
         page:0,
-        rows:10,
+        rows:20,
         isValidate:false,
         noPremission:false,
         loading:false,
         total:0,
+        pages:0,
         search:'',
         getType:1,         // 0：模糊搜索  1：选项搜索
         provinceList:provinceList,
@@ -148,13 +203,24 @@
         selImg:require('../../assets/jpg/sel_bg.jpg'),
         downImg:require('../../assets/png/down.png'),
         height:(window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight) + 'px',
-        isFirst:true          //第一次进入province时不getdata
+        isFirst:true,          //第一次进入province时不getdata
+        allLoaded:false,            //是否完全加载数据，当page = 总页数时 allLoaded设置为true
+        bottomPullTextVal: '上划加载更多数据',
+        bottomDropTextVal: '释放更新',
+        bottomLoadingTextVal: '加载中...',
+        topPullTextVal: '下拉加载更多数据',
+        topDropTextVal: '释放更新',
+        topLoadingTextVal: '加载中...'
       }
     },
     mounted: function () {
       this.getUserInfo()
     },
     methods: {
+      loadBottom:function () {
+//        this.$refs.loadmore.onBottomLoaded();
+        this.loadMore()
+      },
       getUserInfo:function () {
         let self = this
         var id = localStorage.getItem('id')
@@ -261,7 +327,9 @@
         this.total = 0;
         this.itemlist = []
         this.getType = type
-        this.loadMore()
+//        this.$refs.loadmore.onBottomLoaded();
+        this.allLoaded = false
+        this.loadMore(1)
       },
       handleColor:function (type) {   //处理小标签字体颜色
          //生产、经营、储存、使用、运输、处置
@@ -378,9 +446,14 @@
               data.rows.forEach(function (item) {
                 self.itemlist.push(item)
               })
+              if(!type){         //如果是重新从第一页开始的数据，不用调整位置
+                self.$refs.loadmore.onBottomLoaded();
+              }
             }
             self.loading = false
             self.total = data.total
+            self.pages = data.pages
+            if(self.page == self.pages) self.allLoaded = true
           })
           .catch(function (error) {
             self.loading = false
@@ -429,7 +502,8 @@
       }
     },
     components:{
-      'i-header': header
+      'i-header': header,
+      'v-loadmore':Loadmore
     }
   }
 </script>
